@@ -11,7 +11,7 @@ class HtmlAnalyserTests(TestCase):
             content = f.read()
 
         analyser = HtmlAnalyser()
-        result = analyser.analyse_content(content)
+        result = analyser.analyse(content)
 
         self.assertEqual(result.web_page_content.html, content)
         self.assertEqual(result.web_page_content.title, "test page 1")

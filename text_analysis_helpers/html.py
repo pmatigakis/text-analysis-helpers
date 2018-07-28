@@ -19,7 +19,7 @@ class HtmlAnalyser(object):
     def __init__(self, keyword_stop_list=None):
         self.keyword_stop_list = keyword_stop_list
 
-    def analyse_content(self, html_content):
+    def analyse(self, html_content):
         soup = BeautifulSoup(html_content, "html.parser")
 
         text = extract_page_content(html_content)
@@ -29,7 +29,10 @@ class HtmlAnalyser(object):
 
         keywords = None
         if isinstance(text, str) and len(text) != 0:
-            keywords = extract_keywords(text)
+            keywords = extract_keywords(
+                text=text,
+                keyword_stop_list=self.keyword_stop_list
+            )
 
         return HtmlAnalysisResult(
             web_page_content=WebPageContent(

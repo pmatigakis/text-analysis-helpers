@@ -9,7 +9,7 @@ def main():
     response = requests.get(sys.argv[1])
 
     analyser = HtmlAnalyser()
-    result = analyser.analyse_content(response.text)
+    result = analyser.analyse(response.text)
 
     print(result)
 
