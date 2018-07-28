@@ -19,7 +19,7 @@ class HtmlAnalyser(object):
     def __init__(self, keyword_stop_list=None):
         self.keyword_stop_list = keyword_stop_list
 
-    def process_content(self, html_content):
+    def analyse_content(self, html_content):
         soup = BeautifulSoup(html_content, "html.parser")
 
         text = extract_page_content(html_content)
