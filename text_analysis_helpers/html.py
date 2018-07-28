@@ -7,6 +7,9 @@ from text_analysis_helpers.processors.html import (
     extract_opengraph_data, extract_page_content, extract_page_data,
     extract_twitter_card
 )
+from text_analysis_helpers.models import (
+    HtmlAnalysisResult, WebPageContent, SocialNetworkData, TextData
+)
 
 
 logger = logging.getLogger(__name__)
@@ -24,20 +27,19 @@ class HtmlAnalyser(object):
         opengraph_data = extract_opengraph_data(html_content)
         twitter_card = extract_twitter_card(soup)
 
-        extracted_content = {
-            "text": text
-        }
+        keywords = None
         if isinstance(text, str) and len(text) != 0:
-            extracted_content["keywords"] = extract_keywords(text)
+            keywords = extract_keywords(text)
 
-        content_date = {}
-        content_date.update(extracted_content)
-        content_date.update(page_data)
-
-        return {
-            "content": content_date,
-            "social": {
-                "opengraph": opengraph_data,
-                "twitter": twitter_card
-            }
-        }
+        return HtmlAnalysisResult(
+            web_page_content=WebPageContent(
+                html=html_content,
+                title=page_data["title"],
+                text=text
+            ),
+            social_network_data=SocialNetworkData(
+                opengraph=opengraph_data,
+                twitter=twitter_card
+            ),
+            text_data=TextData(keywords=keywords)
+        )

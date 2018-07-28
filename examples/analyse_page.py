@@ -1,5 +1,4 @@
 import sys
-from pprint import PrettyPrinter
 
 import requests
 
@@ -12,8 +11,7 @@ def main():
     analyser = HtmlAnalyser()
     result = analyser.process_content(response.text)
 
-    pp = PrettyPrinter(indent=4)
-    pp.pprint(result)
+    print(result)
 
 
 if __name__ == "__main__":
