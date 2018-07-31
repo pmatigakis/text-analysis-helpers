@@ -1,0 +1,1 @@
+Collection of classes and functions for text analysis

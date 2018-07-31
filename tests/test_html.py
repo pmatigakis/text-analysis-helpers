@@ -1,12 +1,13 @@
 from unittest import TestCase, main
-from os import path, getcwd
+from os import path
 
 from text_analysis_helpers.html import HtmlAnalyser
 
 
 class HtmlAnalyserTests(TestCase):
     def test_analyse_content(self):
-        page_file = path.join(getcwd(), "data", "page1.html")
+        tests_dir = path.dirname(path.abspath(__file__))
+        page_file = path.join(tests_dir, "data", "page1.html")
         with open(page_file) as f:
             content = f.read()
 
