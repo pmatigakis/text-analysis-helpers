@@ -53,6 +53,21 @@ class HtmlAnalyserTests(TestCase):
                 "url": "https://example.com"
             }
         )
+        self.assertDictEqual(
+            result.text_data.readability_scores,
+            {
+                'automated_readability_index': 8.7,
+                'coleman_liau_index': 12.72,
+                'dale_chall_readability_score': 9.24,
+                'difficult_words': 81,
+                'flesch_kincaid_grade': 6.3,
+                'flesch_reading_ease': 63.66,
+                'gunning_fog': 18.304489795918368,
+                'linsear_write_formula': 2.5,
+                'smog_index': 9.3,
+                'text_standard': '8th and 9th grade'
+            }
+        )
 
 
 if __name__ == "__main__":

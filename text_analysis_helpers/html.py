@@ -2,7 +2,9 @@ import logging
 
 from bs4 import BeautifulSoup
 
-from text_analysis_helpers.processors.text import extract_keywords
+from text_analysis_helpers.processors.text import (
+    extract_keywords, calculate_readability_scores
+)
 from text_analysis_helpers.processors.html import (
     extract_opengraph_data, extract_page_content, extract_page_data,
     extract_twitter_card
@@ -23,6 +25,7 @@ class HtmlAnalyser(object):
         soup = BeautifulSoup(html_content, "html.parser")
 
         text = extract_page_content(html_content)
+        readability_scores = calculate_readability_scores(text)
         page_data = extract_page_data(soup)
         opengraph_data = extract_opengraph_data(html_content)
         twitter_card = extract_twitter_card(soup)
@@ -44,5 +47,8 @@ class HtmlAnalyser(object):
                 opengraph=opengraph_data,
                 twitter=twitter_card
             ),
-            text_data=TextData(keywords=keywords)
+            text_data=TextData(
+                keywords=keywords,
+                readability_scores=readability_scores
+            )
         )

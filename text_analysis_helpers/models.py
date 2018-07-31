@@ -15,7 +15,7 @@ SocialNetworkData = namedtuple(
 
 TextData = namedtuple(
     "TextData",
-    ["keywords"]
+    ["keywords", "readability_scores"]
 )
 
 
