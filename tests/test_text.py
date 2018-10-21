@@ -19,13 +19,13 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
 
         self.assertIsInstance(text_analysis_result, TextAnalysisResult)
         self.assertEqual(text_analysis_result.text, text)
-        self.assertEqual(len(text_analysis_result.text_data.keywords), 20)
+        self.assertEqual(len(text_analysis_result.keywords), 20)
         self.assertEqual(
-            text_analysis_result.text_data.keywords["curabitur justo ante"],
+            text_analysis_result.keywords["curabitur justo ante"],
             9.0
         )
         self.assertDictEqual(
-            text_analysis_result.text_data.readability_scores,
+            text_analysis_result.readability_scores,
             {
                 "automated_readability_index": 8.8,
                 "coleman_liau_index": 12.66,
@@ -40,7 +40,7 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
             }
         )
 
-        statistics = text_analysis_result.text_data.statistics
+        statistics = text_analysis_result.statistics
         self.assertEqual(statistics.sentence_count, 10)
         self.assertEqual(statistics.word_count, 96)
         self.assertEqual(statistics.mean_sentence_word_count, 9.6)
@@ -53,7 +53,7 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertAlmostEqual(
             statistics.sentence_word_count_variance, 5.4399999999999995, 3)
 
-        self.assertNotEqual(text_analysis_result.text_data.summary, text)
+        self.assertNotEqual(text_analysis_result.summary, text)
 
 
 if __name__ == "__main__":

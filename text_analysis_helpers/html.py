@@ -2,9 +2,7 @@ import logging
 
 from bs4 import BeautifulSoup
 
-from text_analysis_helpers.models import (
-    HtmlAnalysisResult, WebPageContent, SocialNetworkData
-)
+from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
 from text_analysis_helpers.processors.html import (
     extract_opengraph_data, extract_page_content, extract_page_data,
     extract_twitter_card
@@ -30,14 +28,11 @@ class HtmlAnalyser(TextAnalyser):
         twitter_card = extract_twitter_card(soup)
 
         return HtmlAnalysisResult(
-            web_page_content=WebPageContent(
-                html=web_page.html,
-                title=page_data["title"],
-                text=text
-            ),
+            html=web_page.html,
+            title=page_data["title"],
             social_network_data=SocialNetworkData(
                 opengraph=opengraph_data,
                 twitter=twitter_card
             ),
-            text_data=text_analysis_result.text_data
+            text_data=text_analysis_result
         )

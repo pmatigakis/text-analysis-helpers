@@ -23,13 +23,13 @@ class HtmlAnalyserTests(TestCase):
         analyser = HtmlAnalyser()
         result = analyser.analyse(web_page)
 
-        self.assertEqual(result.web_page_content.html, content)
-        self.assertEqual(result.web_page_content.title, "test page 1")
-        self.assertTrue(result.web_page_content.text.startswith(
+        self.assertEqual(result.html, content)
+        self.assertEqual(result.title, "test page 1")
+        self.assertTrue(result.text_data.text.startswith(
             "Lorem ipsum dolor sit amet"))
-        self.assertTrue(result.web_page_content.text.endswith(
+        self.assertTrue(result.text_data.text.endswith(
             "lectus id ornare."))
-        self.assertEqual(len(result.web_page_content.text), 1608)
+        self.assertEqual(len(result.text_data.text), 1608)
         self.assertEqual(len(result.text_data.keywords), 66)
         self.assertAlmostEqual(
             max(result.text_data.keywords.values()), 62.366666, 3)
@@ -92,7 +92,7 @@ class HtmlAnalyserTests(TestCase):
             statistics.sentence_word_count_variance, 11.921875, 3)
 
         self.assertNotEqual(
-            result.text_data.summary, result.web_page_content.text)
+            result.text_data.summary, result.text_data.text)
 
 
 if __name__ == "__main__":
