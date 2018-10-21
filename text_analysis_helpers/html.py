@@ -2,6 +2,7 @@ import logging
 
 from bs4 import BeautifulSoup
 
+from text_analysis_helpers.downloaders import download_web_page
 from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
 from text_analysis_helpers.processors.html import (
     extract_opengraph_data, extract_page_content, extract_page_data,
@@ -16,6 +17,16 @@ logger = logging.getLogger(__name__)
 class HtmlAnalyser(TextAnalyser):
     def __init__(self, keyword_stop_list=None):
         super(HtmlAnalyser, self).__init__(keyword_stop_list)
+
+    def analyse_url(self, url, timeout=5, headers=None, verify=True):
+        web_page = download_web_page(
+            url=url,
+            timeout=timeout,
+            headers=headers,
+            verify=verify
+        )
+
+        return self.analyse(web_page)
 
     def analyse(self, web_page):
         soup = BeautifulSoup(web_page.html, "html.parser")
