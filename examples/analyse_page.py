@@ -5,7 +5,6 @@ from jinja2.loaders import FileSystemLoader
 from jinja2 import Environment
 
 from text_analysis_helpers.html import HtmlAnalyser
-from text_analysis_helpers.downloaders import download_web_page
 
 
 def get_arguments():
