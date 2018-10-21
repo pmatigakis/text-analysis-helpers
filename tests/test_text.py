@@ -53,6 +53,8 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertAlmostEqual(
             statistics.sentence_word_count_variance, 5.4399999999999995, 3)
 
+        self.assertNotEqual(text_analysis_result.text_data.summary, text)
+
 
 if __name__ == "__main__":
     main()

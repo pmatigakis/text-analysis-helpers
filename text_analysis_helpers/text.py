@@ -1,6 +1,7 @@
 from text_analysis_helpers.models import TextAnalysisResult, TextData
 from text_analysis_helpers.processors.text import (
-    extract_keywords, calculate_readability_scores, calculate_text_statistics
+    extract_keywords, calculate_readability_scores, calculate_text_statistics,
+    create_summary
 )
 
 
@@ -19,12 +20,14 @@ class TextAnalyser(object):
             )
 
         statistics = calculate_text_statistics(text)
+        summary = create_summary(text)
 
         return TextAnalysisResult(
             text=text,
             text_data=TextData(
                 keywords=keywords,
                 readability_scores=readability_scores,
-                statistics=statistics
+                statistics=statistics,
+                summary=summary
             )
         )

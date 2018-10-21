@@ -13,7 +13,7 @@ SocialNetworkData = namedtuple(
 
 TextData = namedtuple(
     "TextData",
-    ["keywords", "readability_scores", "statistics"]
+    ["keywords", "readability_scores", "statistics", "summary"]
 )
 
 HtmlAnalysisResult = namedtuple(

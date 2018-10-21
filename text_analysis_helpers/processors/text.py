@@ -4,6 +4,7 @@ from rake.rake import Rake
 from rake.stoplists import get_stoplist_file_path
 from textstat.textstat import textstat
 import numpy as np
+from gensim.summarization.summarizer import summarize
 
 from nltk import sent_tokenize, word_tokenize
 
@@ -57,3 +58,7 @@ def calculate_text_statistics(text):
         sentence_word_count_std=sentence_word_counts.std(),
         sentence_word_count_variance=sentence_word_counts.var()
     )
+
+
+def create_summary(text):
+    return summarize(text)

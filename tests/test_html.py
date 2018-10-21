@@ -91,6 +91,9 @@ class HtmlAnalyserTests(TestCase):
         self.assertAlmostEqual(
             statistics.sentence_word_count_variance, 11.921875, 3)
 
+        self.assertNotEqual(
+            result.text_data.summary, result.web_page_content.text)
+
 
 if __name__ == "__main__":
     main()
