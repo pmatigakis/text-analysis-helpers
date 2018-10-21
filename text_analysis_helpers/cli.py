@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 
 from text_analysis_helpers.html import HtmlAnalyser
-from text_analysis_helpers.helpers import render_html_analysis_result
 
 
 def get_arguments():
@@ -17,7 +16,4 @@ def main():
 
     analyser = HtmlAnalyser()
     analysis_result = analyser.analyse_url(args.url)
-    content = render_html_analysis_result(analysis_result)
-
-    with open(args.output, "w") as f:
-        f.write(content)
+    analysis_result.save(args.output)

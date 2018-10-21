@@ -1,5 +1,7 @@
 from collections import namedtuple
 
+from text_analysis_helpers.helpers import render_html_analysis_result
+
 
 TextStatistics = namedtuple(
     "TextStatistics",
@@ -24,7 +26,19 @@ SocialNetworkData = namedtuple(
     ["opengraph", "twitter"]
 )
 
-HtmlAnalysisResult = namedtuple(
-    "HtmlAnalysisResult",
-    ["html", "title", "social_network_data", "text_data"]
-)
+
+class HtmlAnalysisResult(object):
+    def __init__(self, html, title, social_network_data, text_data):
+        self.html = html
+        self.title = title
+        self.social_network_data = social_network_data
+        self.text_data = text_data
+
+    def render(self, template="analysis_result.html"):
+        return render_html_analysis_result(self, template=template)
+
+    def save(self, output_file, template="analysis_result.html"):
+        content = self.render(template=template)
+
+        with open(output_file, "w") as f:
+            f.write(content)
