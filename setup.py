@@ -30,6 +30,11 @@ setup(
     test_suite="nose.collector",
     zip_safe=False,
     include_package_data=True,
+    entry_points={
+        'console_scripts': [
+            'text-analysis-helpers-cli=text_analysis_helpers.cli:main'
+        ]
+    },
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
