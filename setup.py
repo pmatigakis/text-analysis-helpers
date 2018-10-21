@@ -28,7 +28,8 @@ setup(
     install_requires=read_requirements_file("requirements.txt"),
     tests_require=read_requirements_file("requirements-test.txt"),
     test_suite="nose.collector",
-    zip_safe=True,
+    zip_safe=False,
+    include_package_data=True,
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

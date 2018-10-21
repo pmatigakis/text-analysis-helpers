@@ -25,6 +25,6 @@ SocialNetworkData = namedtuple(
 )
 
 HtmlAnalysisResult = namedtuple(
-    "TextAnalysisResult",
+    "HtmlAnalysisResult",
     ["html", "title", "social_network_data", "text_data"]
 )
