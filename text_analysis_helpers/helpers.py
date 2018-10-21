@@ -3,7 +3,7 @@ from jinja2 import Environment
 
 
 def render_html_analysis_result(analysis_result,
-                                template="analysis_result.html"):
+                                template="html_analysis_result.html"):
     loader = PackageLoader('text_analysis_helpers', 'templates')
     env = Environment(loader=loader)
     template = env.get_template(template)

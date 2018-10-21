@@ -34,10 +34,10 @@ class HtmlAnalysisResult(object):
         self.social_network_data = social_network_data
         self.text_data = text_data
 
-    def render(self, template="analysis_result.html"):
+    def render(self, template="html_analysis_result.html"):
         return render_html_analysis_result(self, template=template)
 
-    def save(self, output_file, template="analysis_result.html"):
+    def save(self, output_file, template="html_analysis_result.html"):
         content = self.render(template=template)
 
         with open(output_file, "w") as f:
