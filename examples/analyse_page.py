@@ -1,11 +1,11 @@
 from argparse import ArgumentParser
 from os import getcwd
 
-import requests
 from jinja2.loaders import FileSystemLoader
 from jinja2 import Environment
 
 from text_analysis_helpers.html import HtmlAnalyser
+from text_analysis_helpers.downloaders import download_web_page
 
 
 def get_arguments():
@@ -19,9 +19,9 @@ def get_arguments():
 def main():
     args = get_arguments()
 
-    response = requests.get(args.url)
+    web_page = download_web_page(args.url)
     analyser = HtmlAnalyser()
-    analysis_result = analyser.analyse(response.text)
+    analysis_result = analyser.analyse(web_page)
 
     env = Environment(loader=FileSystemLoader(getcwd()))
     template = env.get_template("analysis_result_template.html")

@@ -2,6 +2,7 @@ from unittest import TestCase, main
 from os import path
 
 from text_analysis_helpers.html import HtmlAnalyser
+from text_analysis_helpers.models import WebPage
 
 
 class HtmlAnalyserTests(TestCase):
@@ -11,8 +12,16 @@ class HtmlAnalyserTests(TestCase):
         with open(page_file) as f:
             content = f.read()
 
+        web_page = WebPage(
+            url="http://www.example.com",
+            html=content,
+            headers={
+                "Content-Type": "text/html"
+            }
+        )
+
         analyser = HtmlAnalyser()
-        result = analyser.analyse(content)
+        result = analyser.analyse(web_page)
 
         self.assertEqual(result.web_page_content.html, content)
         self.assertEqual(result.web_page_content.title, "test page 1")

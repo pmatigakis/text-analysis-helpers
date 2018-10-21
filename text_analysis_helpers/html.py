@@ -21,13 +21,13 @@ class HtmlAnalyser(object):
     def __init__(self, keyword_stop_list=None):
         self.keyword_stop_list = keyword_stop_list
 
-    def analyse(self, html_content):
-        soup = BeautifulSoup(html_content, "html.parser")
+    def analyse(self, web_page):
+        soup = BeautifulSoup(web_page.html, "html.parser")
 
-        text = extract_page_content(html_content)
+        text = extract_page_content(web_page.html)
         readability_scores = calculate_readability_scores(text)
         page_data = extract_page_data(soup)
-        opengraph_data = extract_opengraph_data(html_content)
+        opengraph_data = extract_opengraph_data(web_page.html)
         twitter_card = extract_twitter_card(soup)
 
         keywords = None
@@ -39,7 +39,7 @@ class HtmlAnalyser(object):
 
         return HtmlAnalysisResult(
             web_page_content=WebPageContent(
-                html=html_content,
+                html=web_page.html,
                 title=page_data["title"],
                 text=text
             ),
