@@ -9,6 +9,10 @@ class TextAnalyser(object):
     def __init__(self, keyword_stop_list=None):
         self.keyword_stop_list = keyword_stop_list
 
+    def analyse_file(self, filename):
+        with open(filename, "r") as f:
+            return self.analyse(f.read())
+
     def analyse(self, text):
         readability_scores = calculate_readability_scores(text)
 
