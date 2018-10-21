@@ -25,3 +25,9 @@ WebPage = namedtuple(
     "WebPage",
     ["url", "html", "headers"]
 )
+
+
+TextAnalysisResult = namedtuple(
+    "TextAnalysisResults",
+    ["text", "text_data"]
+)

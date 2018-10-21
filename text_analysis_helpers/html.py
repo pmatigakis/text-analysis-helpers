@@ -2,40 +2,32 @@ import logging
 
 from bs4 import BeautifulSoup
 
-from text_analysis_helpers.processors.text import (
-    extract_keywords, calculate_readability_scores
+from text_analysis_helpers.models import (
+    HtmlAnalysisResult, WebPageContent, SocialNetworkData
 )
 from text_analysis_helpers.processors.html import (
     extract_opengraph_data, extract_page_content, extract_page_data,
     extract_twitter_card
 )
-from text_analysis_helpers.models import (
-    HtmlAnalysisResult, WebPageContent, SocialNetworkData, TextData
-)
+from text_analysis_helpers.text import TextAnalyser
 
 
 logger = logging.getLogger(__name__)
 
 
-class HtmlAnalyser(object):
+class HtmlAnalyser(TextAnalyser):
     def __init__(self, keyword_stop_list=None):
-        self.keyword_stop_list = keyword_stop_list
+        super(HtmlAnalyser, self).__init__(keyword_stop_list)
 
     def analyse(self, web_page):
         soup = BeautifulSoup(web_page.html, "html.parser")
 
         text = extract_page_content(web_page.html)
-        readability_scores = calculate_readability_scores(text)
+        text_analysis_result = super(HtmlAnalyser, self).analyse(text)
+
         page_data = extract_page_data(soup)
         opengraph_data = extract_opengraph_data(web_page.html)
         twitter_card = extract_twitter_card(soup)
-
-        keywords = None
-        if isinstance(text, str) and len(text) != 0:
-            keywords = extract_keywords(
-                text=text,
-                keyword_stop_list=self.keyword_stop_list
-            )
 
         return HtmlAnalysisResult(
             web_page_content=WebPageContent(
@@ -47,8 +39,5 @@ class HtmlAnalyser(object):
                 opengraph=opengraph_data,
                 twitter=twitter_card
             ),
-            text_data=TextData(
-                keywords=keywords,
-                readability_scores=readability_scores
-            )
+            text_data=text_analysis_result.text_data
         )
