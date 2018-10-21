@@ -20,7 +20,6 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertIsInstance(text_analysis_result, TextAnalysisResult)
         self.assertEqual(text_analysis_result.text, text)
         self.assertEqual(len(text_analysis_result.text_data.keywords), 20)
-        print(text_analysis_result.text_data.keywords)
         self.assertEqual(
             text_analysis_result.text_data.keywords["curabitur justo ante"],
             9.0
@@ -40,10 +39,19 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
                 "text_standard": '8th and 9th grade'
             }
         )
-        self.assertEqual(
-            text_analysis_result.text_data.statistics.sentence_count, 10)
-        self.assertEqual(
-            text_analysis_result.text_data.statistics.word_count, 96)
+
+        statistics = text_analysis_result.text_data.statistics
+        self.assertEqual(statistics.sentence_count, 10)
+        self.assertEqual(statistics.word_count, 96)
+        self.assertEqual(statistics.mean_sentence_word_count, 9.6)
+        self.assertEqual(statistics.median_sentence_word_count, 10.0)
+        self.assertEqual(statistics.min_sentence_word_count, 5)
+        self.assertEqual(statistics.max_sentence_word_count, 13)
+        self.assertEqual(statistics.average_sentence_word_count, 9.6)
+        self.assertAlmostEqual(
+            statistics.sentence_word_count_std, 2.33238075793812, 3)
+        self.assertAlmostEqual(
+            statistics.sentence_word_count_variance, 5.4399999999999995, 3)
 
 
 if __name__ == "__main__":

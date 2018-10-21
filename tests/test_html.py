@@ -77,8 +77,19 @@ class HtmlAnalyserTests(TestCase):
                 'text_standard': '8th and 9th grade'
             }
         )
-        self.assertEqual(result.text_data.statistics.sentence_count, 32)
-        self.assertEqual(result.text_data.statistics.word_count, 300)
+
+        statistics = result.text_data.statistics
+        self.assertEqual(statistics.sentence_count, 32)
+        self.assertEqual(statistics.word_count, 300)
+        self.assertEqual(statistics.mean_sentence_word_count, 9.375)
+        self.assertEqual(statistics.median_sentence_word_count, 9.0)
+        self.assertEqual(statistics.min_sentence_word_count, 5)
+        self.assertEqual(statistics.max_sentence_word_count, 20)
+        self.assertEqual(statistics.average_sentence_word_count, 9.375)
+        self.assertAlmostEqual(
+            statistics.sentence_word_count_std, 3.452806829233283, 3)
+        self.assertAlmostEqual(
+            statistics.sentence_word_count_variance, 11.921875, 3)
 
 
 if __name__ == "__main__":

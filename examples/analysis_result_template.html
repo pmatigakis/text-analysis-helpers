@@ -39,14 +39,16 @@
                 </tr>
             </thead>
             <tbody>
+                {% for item in ["sentence_count", "word_count",
+                                "min_sentence_word_count", "max_sentence_word_count",
+                                "mean_sentence_word_count", "median_sentence_word_count",
+                                "average_sentence_word_count", "sentence_word_count_std",
+                                "sentence_word_count_variance"] %}
                 <tr>
-                    <td>sentence count</td>
-                    <td>{{ analysis_result.text_data.statistics.sentence_count }}</td>
+                    <td>{{ item }}</td>
+                    <td>{{ analysis_result.text_data.statistics[item] }}</td>
                 </tr>
-                <tr>
-                    <td>wordcount</td>
-                    <td>{{ analysis_result.text_data.statistics.word_count }}</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

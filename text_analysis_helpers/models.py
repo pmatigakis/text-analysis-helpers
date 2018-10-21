@@ -34,5 +34,8 @@ TextAnalysisResult = namedtuple(
 
 TextStatistics = namedtuple(
     "TextStatistics",
-    ["sentence_count", "word_count"]
+    ["sentence_count", "word_count", "mean_sentence_word_count",
+     "median_sentence_word_count", "min_sentence_word_count",
+     "max_sentence_word_count", "average_sentence_word_count",
+     "sentence_word_count_std", "sentence_word_count_variance"]
 )
