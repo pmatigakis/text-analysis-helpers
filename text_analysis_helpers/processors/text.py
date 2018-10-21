@@ -1,7 +1,12 @@
+import itertools
+
 from rake.rake import Rake
 from rake.stoplists import get_stoplist_file_path
-
 from textstat.textstat import textstat
+
+from nltk import sent_tokenize, word_tokenize
+
+from text_analysis_helpers.models import TextStatistics
 
 
 def extract_keywords(text, keyword_stop_list=None):
@@ -30,3 +35,14 @@ def calculate_readability_scores(text):
         score_function: getattr(textstat, score_function)(text)
         for score_function in score_functions
     }
+
+
+def calculate_text_statistics(text):
+    sentences = sent_tokenize(text)
+    words = [word_tokenize(sentence) for sentence in sentences]
+    words = list(itertools.chain(*words))
+
+    return TextStatistics(
+        sentence_count=len(sentences),
+        word_count=len(words)
+    )

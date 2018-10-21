@@ -40,6 +40,10 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
                 "text_standard": '8th and 9th grade'
             }
         )
+        self.assertEqual(
+            text_analysis_result.text_data.statistics.sentence_count, 10)
+        self.assertEqual(
+            text_analysis_result.text_data.statistics.word_count, 96)
 
 
 if __name__ == "__main__":

@@ -30,6 +30,27 @@
         </table>
     </div>
     <div>
+        <h2>Text statistics</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>statictic</th>
+                    <th>value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>sentence count</td>
+                    <td>{{ analysis_result.text_data.statistics.sentence_count }}</td>
+                </tr>
+                <tr>
+                    <td>wordcount</td>
+                    <td>{{ analysis_result.text_data.statistics.word_count }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
         <h2>Social network information</h2>
         {% if analysis_result.social_network_data.twitter %}
         <h3>Twitter</h3>

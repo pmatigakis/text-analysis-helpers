@@ -77,6 +77,8 @@ class HtmlAnalyserTests(TestCase):
                 'text_standard': '8th and 9th grade'
             }
         )
+        self.assertEqual(result.text_data.statistics.sentence_count, 32)
+        self.assertEqual(result.text_data.statistics.word_count, 300)
 
 
 if __name__ == "__main__":
