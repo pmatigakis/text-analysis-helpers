@@ -5,11 +5,12 @@ from text_analysis_helpers.models import WebPage
 
 
 def download_web_page(url, timeout=5, **kwargs):
-    response = requests.get(
-        url,
-        timeout=timeout,
-        **kwargs
-    )
+    _kwargs = {
+        "timeout": timeout
+    }
+    _kwargs.update(kwargs)
+
+    response = requests.get(url, **_kwargs)
 
     if response.status_code < 200 or response.status_code >= 300:
         raise WebPageDownloadError(
