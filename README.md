@@ -2,7 +2,7 @@
 
 Text-analysis-helpers is a collection of classes and functions for text analysis.
 
-## installation
+## Installation
 
 Clone the repository and install it. It is recomended to install the package in
 a virtual environment in order to avoid corrupting the system's Python interpeter
