@@ -6,5 +6,6 @@ before_install:
   - export BOTO_CONFIG=/dev/null
 install:
   - pip install -r requirements.txt .
+  - python -m nltk.downloader "punkt"
 script:
   - python setup.py test
