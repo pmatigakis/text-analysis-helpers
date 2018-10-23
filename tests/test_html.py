@@ -25,18 +25,18 @@ class HtmlAnalyserTests(TestCase):
 
         self.assertEqual(result.html, content)
         self.assertEqual(result.title, "test page 1")
-        self.assertTrue(result.text_data.text.startswith(
+        self.assertTrue(result.text.startswith(
             "Lorem ipsum dolor sit amet"))
-        self.assertTrue(result.text_data.text.endswith(
+        self.assertTrue(result.text.endswith(
             "lectus id ornare."))
-        self.assertEqual(len(result.text_data.text), 1608)
-        self.assertEqual(len(result.text_data.keywords), 66)
+        self.assertEqual(len(result.text), 1608)
+        self.assertEqual(len(result.keywords), 66)
         self.assertAlmostEqual(
-            max(result.text_data.keywords.values()), 62.366666, 3)
+            max(result.keywords.values()), 62.366666, 3)
         self.assertAlmostEqual(
-            min(result.text_data.keywords.values()), 1.0, 3)
+            min(result.keywords.values()), 1.0, 3)
         self.assertAlmostEqual(
-            result.text_data.keywords["ut laoreet nisi ligula"],
+            result.keywords["ut laoreet nisi ligula"],
             14.6818181, 3
         )
         self.assertDictEqual(
@@ -63,7 +63,7 @@ class HtmlAnalyserTests(TestCase):
             }
         )
         self.assertDictEqual(
-            result.text_data.readability_scores,
+            result.readability_scores,
             {
                 'automated_readability_index': 8.7,
                 'coleman_liau_index': 12.72,
@@ -78,7 +78,7 @@ class HtmlAnalyserTests(TestCase):
             }
         )
 
-        statistics = result.text_data.statistics
+        statistics = result.statistics
         self.assertEqual(statistics.sentence_count, 32)
         self.assertEqual(statistics.word_count, 300)
         self.assertEqual(statistics.mean_sentence_word_count, 9.375)
@@ -91,8 +91,7 @@ class HtmlAnalyserTests(TestCase):
         self.assertAlmostEqual(
             statistics.sentence_word_count_variance, 11.921875, 3)
 
-        self.assertNotEqual(
-            result.text_data.summary, result.text_data.text)
+        self.assertNotEqual(result.summary, result.text)
 
 
 if __name__ == "__main__":

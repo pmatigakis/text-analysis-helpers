@@ -8,11 +8,11 @@
     <h1>Analysis result</h1>
     <div>
         <h2>{{ analysis_result.title }}</h2>
-        <p>{{ analysis_result.text_data.text }}</p>
+        <p>{{ analysis_result.text }}</p>
     </div>
     <div>
         <h2>Summary</h2>
-        <p>{{ analysis_result.text_data.summary }}</p>
+        <p>{{ analysis_result.summary }}</p>
     </div>
     <div>
         <h2>Readability scores</h2>
@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for key, value in analysis_result.text_data.readability_scores.items() %}
+            {% for key, value in analysis_result.readability_scores.items() %}
                 <tr>
                     <td>{{ key }}</td>
                     <td>{{ value }}</td>
@@ -50,7 +50,7 @@
                                 "sentence_word_count_variance"] %}
                 <tr>
                     <td>{{ item }}</td>
-                    <td>{{ analysis_result.text_data.statistics[item] }}</td>
+                    <td>{{ analysis_result.statistics[item] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -107,7 +107,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for keyword, score in analysis_result.text_data.keywords|dictsort(by="value", reverse=True) %}
+            {% for keyword, score in analysis_result.keywords|dictsort(by="value", reverse=True) %}
             <tr>
                 <td>{{ keyword }}</td>
                 <td>{{ score }}</td>

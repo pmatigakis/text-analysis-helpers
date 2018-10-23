@@ -68,7 +68,7 @@ class TextAnalysisResult(BaseAnalysisResult):
         :param str text: the text that was analysed
         :param dict[str, int] keywords: the extracted keywords and their scores
         :param dict[str, T] readability_scores: the readability scores
-        :param dict[str, T] statistics: the text statistics
+        :param TextStatistics statistics: the text statistics
         :param str summary: the text summary
         """
         self.text = text
@@ -78,7 +78,7 @@ class TextAnalysisResult(BaseAnalysisResult):
         self.summary = summary
 
 
-class HtmlAnalysisResult(BaseAnalysisResult):
+class HtmlAnalysisResult(TextAnalysisResult):
     """Html analysis result"""
 
     DEFAULT_TEMPLATE = "html_analysis_result.html"
@@ -88,11 +88,19 @@ class HtmlAnalysisResult(BaseAnalysisResult):
 
         :param str html: the web page content
         :param str title: the web page title
-        :param dict[str, dict] social_network_data: the extracted social
+        :param SocialNetworkData social_network_data: the extracted social
             network data
         :param TextAnalysisResult text_data: the text analysis result for the
             text that was extracted from the web page
         """
+        super(HtmlAnalysisResult, self).__init__(
+            text=text_data.text,
+            keywords=text_data.keywords,
+            readability_scores=text_data.readability_scores,
+            statistics=text_data.statistics,
+            summary=text_data.summary
+        )
+
         self.html = html
         self.title = title
         self.social_network_data = social_network_data
