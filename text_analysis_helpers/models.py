@@ -23,26 +23,54 @@ SocialNetworkData = namedtuple(
 )
 
 
-class BaseModel(metaclass=ABCMeta):
+class BaseAnalysisResult(metaclass=ABCMeta):
+    """Base model for all analysis results"""
+
     DEFAULT_TEMPLATE = None
 
     def render(self, template=None):
+        """Render the analysis result into the given jinja2 template
+
+        If a template is not given then this object will attempt to render the
+        analysis result using the default template of the BaseAnalysisResult
+        implementation.
+
+        :param str|none template: the path to a jinja2 template
+        """
         template = template or self.DEFAULT_TEMPLATE
 
         return render_analysis_result(self, template)
 
     def save(self, output_file, template=None):
+        """Save the analysis result to a file
+
+        :param str output_file: the out file
+        :param str|None template: render the analysis result using this jinja2
+            template. If a template is not given then we will use the default
+            template for the BaseAnalysisResult implementation
+        :return:
+        """
         content = self.render(template=template)
 
         with open(output_file, "w") as f:
             f.write(content)
 
 
-class TextAnalysisResult(BaseModel):
+class TextAnalysisResult(BaseAnalysisResult):
+    """Text analysis result"""
+
     DEFAULT_TEMPLATE = "text_analysis_result.html"
 
     def __init__(self, text, keywords, readability_scores, statistics,
                  summary):
+        """Create a new TextAnalysisResult object
+
+        :param str text: the text that was analysed
+        :param dict[str, int] keywords: the extracted keywords and their scores
+        :param dict[str, T] readability_scores: the readability scores
+        :param dict[str, T] statistics: the text statistics
+        :param str summary: the text summary
+        """
         self.text = text
         self.keywords = keywords
         self.readability_scores = readability_scores
@@ -50,10 +78,21 @@ class TextAnalysisResult(BaseModel):
         self.summary = summary
 
 
-class HtmlAnalysisResult(BaseModel):
+class HtmlAnalysisResult(BaseAnalysisResult):
+    """Html analysis result"""
+
     DEFAULT_TEMPLATE = "html_analysis_result.html"
 
     def __init__(self, html, title, social_network_data, text_data):
+        """Create a new HtmlAnalysisResult object
+
+        :param str html: the web page content
+        :param str title: the web page title
+        :param dict[str, dict] social_network_data: the extracted social
+            network data
+        :param TextAnalysisResult text_data: the text analysis result for the
+            text that was extracted from the web page
+        """
         self.html = html
         self.title = title
         self.social_network_data = social_network_data

@@ -5,6 +5,15 @@ from text_analysis_helpers.models import WebPage
 
 
 def download_web_page(url, timeout=5, **kwargs):
+    """Download a web page
+
+    :param str url: the url of the web page
+    :param int timeout: the request timeout
+    :param kwargs: additional arguments to pass to the `requests.get`
+        method
+    :rtype: WebPage
+    :return: the web page contents
+    """
     _kwargs = {
         "timeout": timeout
     }

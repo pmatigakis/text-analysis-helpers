@@ -6,14 +6,28 @@ from text_analysis_helpers.processors.text import (
 
 
 class TextAnalyser(object):
+    """Text analyser"""
+
     def __init__(self, keyword_stop_list=None):
         self.keyword_stop_list = keyword_stop_list
 
     def analyse_file(self, filename):
+        """Analyse the contents of a file
+
+        :param str filename: the path to a file
+        :rtype: TextAnalysisResult
+        :return: the analysis result
+        """
         with open(filename, "r") as f:
             return self.analyse(f.read())
 
     def analyse(self, text):
+        """Analyse the given text
+
+        :param str text: the text to analyse
+        :rtype: TextAnalysisResult
+        :return: the analysis result
+        """
         readability_scores = calculate_readability_scores(text)
 
         keywords = None
