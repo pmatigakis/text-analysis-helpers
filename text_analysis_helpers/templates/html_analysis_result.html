@@ -8,11 +8,28 @@
     <h1>Analysis result</h1>
     <div>
         <h2>{{ analysis_result.title }}</h2>
+        <img src="{{ analysis_result.top_image }}" alt="article top image">
         <p>{{ analysis_result.text }}</p>
     </div>
     <div>
         <h2>Summary</h2>
         <p>{{ analysis_result.summary }}</p>
+    </div>
+    <div>
+        <h2>Images</h2>
+        <ul>
+        {% for image in analysis_result.images %}
+            <li><a href="{{ image }}">{{ image }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h2>Movies</h2>
+        <ul>
+        {% for movie in analysis_result.movies %}
+            <li><a href="{{ movie }}">{{ movie }}</a></li>
+        {% endfor %}
+        </ul>
     </div>
     <div>
         <h2>Readability scores</h2>

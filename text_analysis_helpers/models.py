@@ -83,7 +83,8 @@ class HtmlAnalysisResult(TextAnalysisResult):
 
     DEFAULT_TEMPLATE = "html_analysis_result.html"
 
-    def __init__(self, html, title, social_network_data, text_data):
+    def __init__(self, html, title, social_network_data, text_data,
+                 page_content):
         """Create a new HtmlAnalysisResult object
 
         :param str html: the web page content
@@ -92,6 +93,7 @@ class HtmlAnalysisResult(TextAnalysisResult):
             network data
         :param TextAnalysisResult text_data: the text analysis result for the
             text that was extracted from the web page
+        :param newspaper.Article page_content: the analysed article data
         """
         super(HtmlAnalysisResult, self).__init__(
             text=text_data.text,
@@ -104,4 +106,6 @@ class HtmlAnalysisResult(TextAnalysisResult):
         self.html = html
         self.title = title
         self.social_network_data = social_network_data
-        self.text_data = text_data
+        self.top_image = page_content.top_image
+        self.images = page_content.imgs
+        self.movies = page_content.movies

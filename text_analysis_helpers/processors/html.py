@@ -1,14 +1,18 @@
 from logging import getLogger
 
-from newspaper import fulltext
+from newspaper import Article
 from opengraph.opengraph import OpenGraph
 
 
 logger = getLogger(__name__)
 
 
-def extract_page_content(html_content):
-    return fulltext(html_content)
+def extract_page_content(url, html_content):
+    article = Article(url)
+    article.download(input_html=html_content)
+    article.parse()
+
+    return article
 
 
 def extract_page_data(soup):

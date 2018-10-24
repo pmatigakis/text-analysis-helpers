@@ -59,8 +59,8 @@ class HtmlAnalyser(object):
         """
         soup = BeautifulSoup(web_page.html, "html.parser")
 
-        text = extract_page_content(web_page.html)
-        text_analysis_result = self.__text_analyser.analyse(text)
+        page_content = extract_page_content(web_page.url, web_page.html)
+        text_analysis_result = self.__text_analyser.analyse(page_content.text)
 
         page_data = extract_page_data(soup)
         opengraph_data = extract_opengraph_data(web_page.html)
@@ -73,5 +73,6 @@ class HtmlAnalyser(object):
                 opengraph=opengraph_data,
                 twitter=twitter_card
             ),
-            text_data=text_analysis_result
+            text_data=text_analysis_result,
+            page_content=page_content
         )
