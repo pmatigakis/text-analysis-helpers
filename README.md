@@ -12,6 +12,7 @@ packages.
 git clone git+https://github.com/pmatigakis/text-analysis-helpers.git
 pip install -r requirements.txt .
 python -m nltk.downloader "punkt"
+python -m nltk.downloader "averaged_perceptron_tagger"
 
 ```
 
