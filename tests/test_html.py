@@ -92,6 +92,9 @@ class HtmlAnalyserTests(TestCase):
             statistics.sentence_word_count_variance, 11.921875, 3)
 
         self.assertNotEqual(result.summary, result.text)
+        self.assertIsNotNone(result.top_image)
+        self.assertEqual(result.images, {"https://example.com/image_1.png"})
+        self.assertEqual(result.movies, [])
 
 
 if __name__ == "__main__":
