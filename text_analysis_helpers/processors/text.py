@@ -1,4 +1,5 @@
 import itertools
+from collections import defaultdict
 
 from rake.rake import Rake
 from rake.stoplists import get_stoplist_file_path
@@ -6,7 +7,8 @@ from textstat.textstat import textstat
 import numpy as np
 from gensim.summarization.summarizer import summarize
 
-from nltk import sent_tokenize, word_tokenize
+from nltk import sent_tokenize, word_tokenize, pos_tag, ne_chunk
+from nltk.tree import Tree
 
 from text_analysis_helpers.models import TextStatistics
 
@@ -62,3 +64,26 @@ def calculate_text_statistics(text):
 
 def create_summary(text):
     return summarize(text)
+
+
+def extract_named_entities(text):
+    sentences = sent_tokenize(text)
+    sentences = [word_tokenize(sentence) for sentence in sentences]
+    sentences = [pos_tag(sentence) for sentence in sentences]
+    sentences = [ne_chunk(sentence, binary=False) for sentence in sentences]
+
+    named_entities = defaultdict(set)
+    for sentence in sentences:
+        for item in sentence:
+            if isinstance(item, Tree):
+                ne_type = item.label()
+                entity = " ".join(
+                    [
+                        entity_component[0]
+                        for entity_component in item.leaves()
+                    ]
+                )
+
+                named_entities[ne_type].add(entity)
+
+    return dict(named_entities)

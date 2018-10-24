@@ -62,7 +62,7 @@ class TextAnalysisResult(BaseAnalysisResult):
     DEFAULT_TEMPLATE = "text_analysis_result.html"
 
     def __init__(self, text, keywords, readability_scores, statistics,
-                 summary):
+                 summary, named_entities):
         """Create a new TextAnalysisResult object
 
         :param str text: the text that was analysed
@@ -70,12 +70,14 @@ class TextAnalysisResult(BaseAnalysisResult):
         :param dict[str, T] readability_scores: the readability scores
         :param TextStatistics statistics: the text statistics
         :param str summary: the text summary
+        :param dict[str, str] named_entities: the extracted named entities
         """
         self.text = text
         self.keywords = keywords
         self.readability_scores = readability_scores
         self.statistics = statistics
         self.summary = summary
+        self.named_entities = named_entities
 
 
 class HtmlAnalysisResult(TextAnalysisResult):
@@ -100,7 +102,8 @@ class HtmlAnalysisResult(TextAnalysisResult):
             keywords=text_data.keywords,
             readability_scores=text_data.readability_scores,
             statistics=text_data.statistics,
-            summary=text_data.summary
+            summary=text_data.summary,
+            named_entities=text_data.named_entities
         )
 
         self.html = html

@@ -96,6 +96,18 @@ class HtmlAnalyserTests(TestCase):
         self.assertEqual(result.images, {"https://example.com/image_1.png"})
         self.assertEqual(result.movies, [])
 
+        # TODO: add proper unit tests for the named entities
+        self.assertDictEqual(
+            result.named_entities,
+            {
+                'GPE': {'Aenean', 'Aliquam', 'Curabitur', 'Donec', 'Duis',
+                        'Etiam', 'Fusce', 'Integer', 'Lorem', 'Maecenas',
+                        'Morbi', 'Nullam', 'Nunc', 'Pellentesque', 'Quisque',
+                        'Sed', 'Ut', 'Vivamus'},
+                'PERSON': {'Fusce', 'Quisque'}
+            }
+        )
+
 
 if __name__ == "__main__":
     main()

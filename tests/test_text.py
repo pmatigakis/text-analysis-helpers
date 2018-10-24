@@ -55,6 +55,16 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
 
         self.assertNotEqual(text_analysis_result.summary, text)
 
+        # TODO: add proper unit tests for the named entities
+        self.assertDictEqual(
+            text_analysis_result.named_entities,
+            {
+                'GPE': {
+                    'Morbi', 'Pellentesque', 'Duis', 'Nullam', 'Curabitur'},
+                'PERSON': {'Quisque'}
+            }
+        )
+
 
 if __name__ == "__main__":
     main()

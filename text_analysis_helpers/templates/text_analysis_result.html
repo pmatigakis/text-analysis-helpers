@@ -56,6 +56,25 @@
         </table>
     </div>
     <div>
+        <h2>Named entities</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>entity type</th>
+                    <th>items</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in analysis_result.named_entities %}
+                <tr>
+                    <td>{{ category }}</td>
+                    <td>{{ analysis_result.named_entities[category]|join(", ") }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
         <h2>Keywords</h2>
         <table>
             <thead>
