@@ -13,7 +13,7 @@ git clone git+https://github.com/pmatigakis/text-analysis-helpers.git
 pip install -r requirements.txt .
 python -m nltk.downloader "punkt"
 python -m nltk.downloader "averaged_perceptron_tagger"
-
+python -m nltk.downloader "maxent_ne_chunker"
 ```
 
 ## Usage
