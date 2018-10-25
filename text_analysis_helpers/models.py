@@ -1,5 +1,6 @@
 from collections import namedtuple
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
+import json
 
 from text_analysis_helpers.helpers import render_analysis_result
 
@@ -55,6 +56,23 @@ class BaseAnalysisResult(metaclass=ABCMeta):
         with open(output_file, "w") as f:
             f.write(content)
 
+    @abstractmethod
+    def as_dict(self):
+        """Convert the analysis result object into a dictionary
+
+        :rtype: dict
+        :return: the result object data as a dictionary
+        """
+        pass
+
+    def as_json(self):
+        """Convert the analysis result object into a json string
+
+        :rtype: str
+        :return: the data encoded in json
+        """
+        return json.dumps(self.as_dict())
+
 
 class TextAnalysisResult(BaseAnalysisResult):
     """Text analysis result"""
@@ -70,7 +88,7 @@ class TextAnalysisResult(BaseAnalysisResult):
         :param dict[str, T] readability_scores: the readability scores
         :param TextStatistics statistics: the text statistics
         :param str summary: the text summary
-        :param dict[str, str] named_entities: the extracted named entities
+        :param dict[str, set[str]] named_entities: the extracted named entities
         """
         self.text = text
         self.keywords = keywords
@@ -78,6 +96,22 @@ class TextAnalysisResult(BaseAnalysisResult):
         self.statistics = statistics
         self.summary = summary
         self.named_entities = named_entities
+
+    def as_dict(self):
+        named_entities = {
+            named_entity_type: list(self.named_entities[named_entity_type])
+            for named_entity_type in self.named_entities
+        }
+
+        return {
+            "text": self.text,
+            "keywords": self.keywords,
+            "readability_scores": self.readability_scores,
+            "statistics": dict(self.statistics._asdict()),
+            "summary": self.summary,
+            "named_entities": named_entities
+
+        }
 
 
 class HtmlAnalysisResult(TextAnalysisResult):
@@ -112,3 +146,18 @@ class HtmlAnalysisResult(TextAnalysisResult):
         self.top_image = page_content.top_image
         self.images = page_content.imgs
         self.movies = page_content.movies
+
+    def as_dict(self):
+        data = super(HtmlAnalysisResult, self).as_dict()
+
+        data["html"] = self.html
+        data["title"] = self.title
+        data["top_image"] = self.top_image
+        data["images"] = list(self.images)
+        data["movies"] = self.movies
+        data["social_network_data"] = {
+            "twitter": self.social_network_data.twitter,
+            "opengraph": self.social_network_data.opengraph
+        }
+
+        return data
