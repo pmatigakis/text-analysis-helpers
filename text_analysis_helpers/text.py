@@ -1,7 +1,9 @@
 import itertools
 from collections import defaultdict
 
-from nltk import sent_tokenize, word_tokenize, pos_tag, ne_chunk
+from nltk import sent_tokenize, word_tokenize
+from nltk.data import load as nltk_data_load
+from nltk.tag.perceptron import PerceptronTagger
 from nltk.tree import Tree
 import numpy as np
 
@@ -15,8 +17,14 @@ from text_analysis_helpers.processors.text import (
 class TextAnalyser(object):
     """Text analyser"""
 
+    MULTICLASS_NE_CHUNKER = \
+        "chunkers/maxent_ne_chunker/english_ace_multiclass.pickle"
+
     def __init__(self, keyword_stop_list=None):
         self.keyword_stop_list = keyword_stop_list
+
+        self.__pos_tagger = PerceptronTagger()
+        self.__ne_chunker = nltk_data_load(self.MULTICLASS_NE_CHUNKER)
 
     def analyse_file(self, filename):
         """Analyse the contents of a file
@@ -65,8 +73,9 @@ class TextAnalyser(object):
         :rtype: dict[str: set]
         :return: the extracted dictionary words
         """
-        tagged_sentences = [pos_tag(sentence) for sentence in sentence_words]
-        chunked_sentences = [ne_chunk(sentence, binary=False)
+        tagged_sentences = [self.__pos_tagger.tag(sentence)
+                            for sentence in sentence_words]
+        chunked_sentences = [self.__ne_chunker.parse(sentence)
                              for sentence in tagged_sentences]
 
         named_entities = defaultdict(set)
