@@ -1,11 +1,19 @@
+from datetime import datetime
 from unittest import TestCase, main
+from unittest.mock import patch
+
+import arrow
+from dateutil.tz import tzutc
 
 from text_analysis_helpers.models import TextAnalysisResult
 from text_analysis_helpers.text import TextAnalyser
 
 
 class TextAnalyserTests(TestCase):
-    def test_analyse(self):
+    @patch("text_analysis_helpers.models.current_date")
+    def test_analyse(self, current_date_mock):
+        current_date_mock.return_value = arrow.get("2018-10-06 12:30:00 UTC")
+
         text = """>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Morbi ac odio tempus elit imperdiet commodo eu eget libero. Nullam eu ornare
 neque, tempus auctor libero. Sed et fermentum magna. Duis id mi vitae mi
@@ -63,6 +71,12 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
                     'Morbi', 'Pellentesque', 'Duis', 'Nullam', 'Curabitur'},
                 'PERSON': {'Quisque'}
             }
+        )
+
+        self.assertEqual(text_analysis_result.created_at_timestamp, 1538829000)
+        self.assertEqual(
+            text_analysis_result.created_at,
+            datetime(2018, 10, 6, 12, 30, tzinfo=tzutc())
         )
 
 

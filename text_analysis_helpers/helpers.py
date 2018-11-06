@@ -1,5 +1,10 @@
+import arrow
 from jinja2.loaders import PackageLoader
 from jinja2 import Environment
+
+
+def current_date():
+    return arrow.utcnow()
 
 
 def render_analysis_result(analysis_result, template):

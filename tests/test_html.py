@@ -1,12 +1,20 @@
+from datetime import datetime
 from unittest import TestCase, main
+from unittest.mock import patch
 from os import path
+
+import arrow
+from dateutil.tz import tzutc
 
 from text_analysis_helpers.html import HtmlAnalyser
 from text_analysis_helpers.models import WebPage
 
 
 class HtmlAnalyserTests(TestCase):
-    def test_analyse_content(self):
+    @patch("text_analysis_helpers.models.current_date")
+    def test_analyse_content(self, current_date_mock):
+        current_date_mock.return_value = arrow.get("2018-10-06 12:30:00 UTC")
+
         tests_dir = path.dirname(path.abspath(__file__))
         page_file = path.join(tests_dir, "data", "page1.html")
         with open(page_file) as f:
@@ -108,6 +116,10 @@ class HtmlAnalyserTests(TestCase):
                 'PERSON': {'Fusce', 'Quisque'}
             }
         )
+
+        self.assertEqual(result.created_at_timestamp, 1538829000)
+        self.assertEqual(
+            result.created_at, datetime(2018, 10, 6, 12, 30, tzinfo=tzutc()))
 
 
 if __name__ == "__main__":

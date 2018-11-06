@@ -2,7 +2,7 @@ from collections import namedtuple
 from abc import ABCMeta, abstractmethod
 import json
 
-from text_analysis_helpers.helpers import render_analysis_result
+from text_analysis_helpers.helpers import render_analysis_result, current_date
 
 
 TextStatistics = namedtuple(
@@ -28,6 +28,12 @@ class BaseAnalysisResult(metaclass=ABCMeta):
     """Base model for all analysis results"""
 
     DEFAULT_TEMPLATE = None
+
+    def __init__(self):
+        creation_date = current_date()
+
+        self.created_at = creation_date.datetime
+        self.created_at_timestamp = creation_date.timestamp
 
     def render(self, template=None):
         """Render the analysis result into the given jinja2 template
@@ -63,7 +69,10 @@ class BaseAnalysisResult(metaclass=ABCMeta):
         :rtype: dict
         :return: the result object data as a dictionary
         """
-        pass
+        return {
+            "created_at": self.created_at.strftime("%Y-%m-%d %H:%M:%S %z"),
+            "created_at_timestamp": self.created_at_timestamp
+        }
 
     def as_json(self):
         """Convert the analysis result object into a json string
@@ -90,6 +99,8 @@ class TextAnalysisResult(BaseAnalysisResult):
         :param str summary: the text summary
         :param dict[str, set[str]] named_entities: the extracted named entities
         """
+        super(TextAnalysisResult, self).__init__()
+
         self.text = text
         self.keywords = keywords
         self.readability_scores = readability_scores
@@ -98,20 +109,23 @@ class TextAnalysisResult(BaseAnalysisResult):
         self.named_entities = named_entities
 
     def as_dict(self):
+        data = super(TextAnalysisResult, self).as_dict()
+
         named_entities = {
             named_entity_type: list(self.named_entities[named_entity_type])
             for named_entity_type in self.named_entities
         }
 
-        return {
+        data.update({
             "text": self.text,
             "keywords": self.keywords,
             "readability_scores": self.readability_scores,
             "statistics": dict(self.statistics._asdict()),
             "summary": self.summary,
             "named_entities": named_entities
+        })
 
-        }
+        return data
 
 
 class HtmlAnalysisResult(TextAnalysisResult):
@@ -152,15 +166,17 @@ class HtmlAnalysisResult(TextAnalysisResult):
     def as_dict(self):
         data = super(HtmlAnalysisResult, self).as_dict()
 
-        data["url"] = self.url
-        data["html"] = self.html
-        data["title"] = self.title
-        data["top_image"] = self.top_image
-        data["images"] = list(self.images)
-        data["movies"] = self.movies
-        data["social_network_data"] = {
-            "twitter": self.social_network_data.twitter,
-            "opengraph": self.social_network_data.opengraph
-        }
+        data.update({
+            "url": self.url,
+            "html": self.html,
+            "title": self.title,
+            "top_image": self.top_image,
+            "images": list(self.images),
+            "movies": self.movies,
+            "social_network_data": {
+                "twitter": self.social_network_data.twitter,
+                "opengraph": self.social_network_data.opengraph
+            }
+        })
 
         return data

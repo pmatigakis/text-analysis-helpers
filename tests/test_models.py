@@ -1,6 +1,8 @@
 from unittest import TestCase, main
 from unittest.mock import Mock
 
+import arrow
+
 from text_analysis_helpers.models import (
     TextAnalysisResult, TextStatistics, HtmlAnalysisResult, SocialNetworkData
 )
@@ -44,6 +46,10 @@ class TextAnalysisResultTest(TestCase):
             }
         )
 
+        created_at = arrow.get("2018-10-06 12:30:00 UTC")
+        self.analysis_result.created_at = created_at.datetime
+        self.analysis_result.created_at_timestamp = created_at.timestamp
+
     def test_as_dict(self):
         self.assertDictEqual(
             self.analysis_result.as_dict(),
@@ -78,7 +84,9 @@ class TextAnalysisResultTest(TestCase):
                     'word_count': 100
                 },
                 'summary': 'hello',
-                'text': 'hello world'
+                'text': 'hello world',
+                "created_at": "2018-10-06 12:30:00 +0000",
+                "created_at_timestamp": 1538829000,
             }
         )
 
@@ -147,10 +155,16 @@ class HtmlAnalysisResultTest(TestCase):
             page_content=mock_page_content
         )
 
+        created_at = arrow.get("2018-10-06 12:30:00 UTC")
+        self.analysis_result.created_at = created_at.datetime
+        self.analysis_result.created_at_timestamp = created_at.timestamp
+
     def test_as_dict(self):
         self.assertDictEqual(
             self.analysis_result.as_dict(),
             {
+                "created_at": "2018-10-06 12:30:00 +0000",
+                "created_at_timestamp": 1538829000,
                 'url': "http://www.example.com/page_1.html",
                 'html': 'some html goes here',
                 'images': ['http://www.example.com/image.png'],
