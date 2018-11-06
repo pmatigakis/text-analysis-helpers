@@ -67,6 +67,7 @@ class HtmlAnalyser(object):
         twitter_card = extract_twitter_card(soup)
 
         return HtmlAnalysisResult(
+            url=web_page.url,
             html=web_page.html,
             title=page_data["title"],
             social_network_data=SocialNetworkData(

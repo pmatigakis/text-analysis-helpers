@@ -119,10 +119,11 @@ class HtmlAnalysisResult(TextAnalysisResult):
 
     DEFAULT_TEMPLATE = "html_analysis_result.html"
 
-    def __init__(self, html, title, social_network_data, text_data,
+    def __init__(self, url, html, title, social_network_data, text_data,
                  page_content):
         """Create a new HtmlAnalysisResult object
 
+        :param str url: the web page url
         :param str html: the web page content
         :param str title: the web page title
         :param SocialNetworkData social_network_data: the extracted social
@@ -140,6 +141,7 @@ class HtmlAnalysisResult(TextAnalysisResult):
             named_entities=text_data.named_entities
         )
 
+        self.url = url
         self.html = html
         self.title = title
         self.social_network_data = social_network_data
@@ -150,6 +152,7 @@ class HtmlAnalysisResult(TextAnalysisResult):
     def as_dict(self):
         data = super(HtmlAnalysisResult, self).as_dict()
 
+        data["url"] = self.url
         data["html"] = self.html
         data["title"] = self.title
         data["top_image"] = self.top_image

@@ -139,6 +139,7 @@ class HtmlAnalysisResultTest(TestCase):
         mock_page_content.movies = ["http://www.example.com/movie.mp4"]
 
         self.analysis_result = HtmlAnalysisResult(
+            url="http://www.example.com/page_1.html",
             html="some html goes here",
             title="this is the title",
             social_network_data=social_netword_data,
@@ -150,6 +151,7 @@ class HtmlAnalysisResultTest(TestCase):
         self.assertDictEqual(
             self.analysis_result.as_dict(),
             {
+                'url': "http://www.example.com/page_1.html",
                 'html': 'some html goes here',
                 'images': ['http://www.example.com/image.png'],
                 'keywords': {

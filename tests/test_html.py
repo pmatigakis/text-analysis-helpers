@@ -23,6 +23,7 @@ class HtmlAnalyserTests(TestCase):
         analyser = HtmlAnalyser()
         result = analyser.analyse(web_page)
 
+        self.assertEqual(result.url, "http://www.example.com")
         self.assertEqual(result.html, content)
         self.assertEqual(result.title, "test page 1")
         self.assertTrue(result.text.startswith(
