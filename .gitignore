@@ -109,3 +109,6 @@ virtualenv/
 
 # example files
 examples/analysis_result.html
+
+# development
+temp/
