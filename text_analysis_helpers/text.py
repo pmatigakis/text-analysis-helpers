@@ -21,7 +21,7 @@ class TextAnalyser(object):
         "chunkers/maxent_ne_chunker/english_ace_multiclass.pickle"
 
     def __init__(self, keyword_stop_list=None):
-        self.keyword_stop_list = keyword_stop_list
+        self.__keyword_stop_list = keyword_stop_list
 
         self.__pos_tagger = PerceptronTagger()
         self.__ne_chunker = nltk_data_load(self.MULTICLASS_NE_CHUNKER)
@@ -107,7 +107,7 @@ class TextAnalyser(object):
         if isinstance(text, str) and len(text) != 0:
             keywords = extract_keywords(
                 text=text,
-                keyword_stop_list=self.keyword_stop_list
+                keyword_stop_list=self.__keyword_stop_list
             )
 
         sentences = sent_tokenize(text)

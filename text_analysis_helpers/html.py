@@ -21,15 +21,6 @@ class HtmlAnalyser(object):
         self.__keyword_stop_list = keyword_stop_list
         self.__text_analyser = TextAnalyser(keyword_stop_list)
 
-    @property
-    def keyword_stop_list(self):
-        return self.__keyword_stop_list
-
-    @keyword_stop_list.setter
-    def keyword_stop_list(self, value):
-        self.__keyword_stop_list = value
-        self.__text_analyser.keyword_stop_list = value
-
     def analyse_url(self, url, timeout=5, headers=None, verify=True):
         """Download and analyse the contents of the given url
 
