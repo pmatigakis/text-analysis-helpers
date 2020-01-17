@@ -13,7 +13,8 @@ from text_analysis_helpers.models import WebPage
 class HtmlAnalyserTests(TestCase):
     @patch("text_analysis_helpers.models.current_date")
     def test_analyse_content(self, current_date_mock):
-        current_date_mock.return_value = arrow.get("2018-10-06 12:30:00 UTC")
+        current_date_mock.return_value = arrow.get(
+            "2018-10-06T12:30:00.000000+00:00")
 
         tests_dir = path.dirname(path.abspath(__file__))
         page_file = path.join(tests_dir, "data", "page1.html")

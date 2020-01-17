@@ -46,7 +46,7 @@ class TextAnalysisResultTest(TestCase):
             }
         )
 
-        created_at = arrow.get("2018-10-06 12:30:00 UTC")
+        created_at = arrow.get("2018-10-06T12:30:00.000000+00:00")
         self.analysis_result.created_at = created_at.datetime
         self.analysis_result.created_at_timestamp = created_at.timestamp
 
@@ -155,7 +155,7 @@ class HtmlAnalysisResultTest(TestCase):
             page_content=mock_page_content
         )
 
-        created_at = arrow.get("2018-10-06 12:30:00 UTC")
+        created_at = arrow.get("2018-10-06T12:30:00.000000+00:00")
         self.analysis_result.created_at = created_at.datetime
         self.analysis_result.created_at_timestamp = created_at.timestamp
 
