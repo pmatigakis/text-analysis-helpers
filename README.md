@@ -4,9 +4,9 @@ Text-analysis-helpers is a collection of classes and functions for text analysis
 
 ## Installation
 
-Clone the repository and install it. It is recomended to install the package in
-a virtual environment in order to avoid corrupting the system's Python interpeter
-packages.
+Clone the repository and install it. A Python 3 interpreter is required. It is
+recommended to install the package in a virtual environment in order to avoid
+corrupting the system's Python interpeter packages.
 
 ```bash
 git clone git+https://github.com/pmatigakis/text-analysis-helpers.git
@@ -25,8 +25,10 @@ You can use the HtmlAnalyser object to analyse the contents of a url.
 from text_analysis_helpers.html import HtmlAnalyser
 
 analyser = HtmlAnalyser()
-analysis_result = analyser.analyse_url("http://www.add-a-domain-here.com")
+analysis_result = analyser.analyse_url("http://www.add-a-url-here.com")
 
 analysis_result.save("analysis_result.html")
 
 ```
+
+You can see the scripts in the `examples` folder for some usage examples.
