@@ -32,3 +32,11 @@ analysis_result.save("analysis_result.html")
 ```
 
 You can see the scripts in the `examples` folder for some usage examples.
+
+There is also an cli utility that can be used to analyse a url. For example to
+analyse a url and save the analysis result to a json encoded file execute the
+following command in the terminal.
+
+```bash
+text-analysis-helpers-cli analyse-url --json --output analysis_result.json https://www.the-url-to-analyse.com
+```
