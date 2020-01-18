@@ -3,6 +3,7 @@ import logging
 from bs4 import BeautifulSoup
 
 from text_analysis_helpers.downloaders import download_web_page
+from text_analysis_helpers.exceptions import ContentExtractionFailed
 from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
 from text_analysis_helpers.processors.html import (
     extract_opengraph_data, extract_page_content, extract_page_data,
@@ -48,11 +49,12 @@ class HtmlAnalyser(object):
         :rtype: HtmlAnalysisResult
         :return: the analysis result
         """
-        soup = BeautifulSoup(web_page.html, "html.parser")
-
         page_content = extract_page_content(web_page.url, web_page.html)
-        text_analysis_result = self.__text_analyser.analyse(page_content.text)
+        if not page_content.text:
+            raise ContentExtractionFailed()
 
+        text_analysis_result = self.__text_analyser.analyse(page_content.text)
+        soup = BeautifulSoup(web_page.html, "html.parser")
         page_data = extract_page_data(soup)
         opengraph_data = extract_opengraph_data(web_page.html)
         twitter_card = extract_twitter_card(soup)

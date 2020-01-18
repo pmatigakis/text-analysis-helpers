@@ -6,6 +6,7 @@ from os import path
 import arrow
 from dateutil.tz import tzutc
 
+from text_analysis_helpers.exceptions import ContentExtractionFailed
 from text_analysis_helpers.html import HtmlAnalyser
 from text_analysis_helpers.models import WebPage
 
@@ -121,6 +122,24 @@ class HtmlAnalyserTests(TestCase):
         self.assertEqual(result.created_at_timestamp, 1538829000)
         self.assertEqual(
             result.created_at, datetime(2018, 10, 6, 12, 30, tzinfo=tzutc()))
+
+    def test_analyse_page_without_content(self):
+        web_page = WebPage(
+            url="http://www.example.com",
+            html="""<html>
+    <head>
+        <title>This is a page</title>
+    </head>
+    <body>
+    </body>
+</html""",
+            headers={
+                "Content-Type": "text/html"
+            }
+        )
+
+        analyser = HtmlAnalyser()
+        self.assertRaises(ContentExtractionFailed, analyser.analyse, web_page)
 
 
 if __name__ == "__main__":
