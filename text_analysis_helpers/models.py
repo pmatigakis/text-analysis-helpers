@@ -62,6 +62,14 @@ class BaseAnalysisResult(metaclass=ABCMeta):
         with open(output_file, "w") as f:
             f.write(content)
 
+    def save_json(self, output_file):
+        """Encode to json and save to a file
+
+        :param str output_file: the output file
+        """
+        with open(output_file, "w") as f:
+            f.write(self.as_json())
+
     @abstractmethod
     def as_dict(self):
         """Convert the analysis result object into a dictionary

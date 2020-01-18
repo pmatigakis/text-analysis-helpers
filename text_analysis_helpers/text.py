@@ -53,13 +53,14 @@ class TextAnalyser(object):
         return TextStatistics(
             sentence_count=len(sentences),
             word_count=len(words),
-            mean_sentence_word_count=sentence_word_counts.mean(),
-            median_sentence_word_count=np.median(sentence_word_counts),
-            min_sentence_word_count=sentence_word_counts.min(),
-            max_sentence_word_count=sentence_word_counts.max(),
-            average_sentence_word_count=np.average(sentence_word_counts),
-            sentence_word_count_std=sentence_word_counts.std(),
-            sentence_word_count_variance=sentence_word_counts.var()
+            mean_sentence_word_count=float(sentence_word_counts.mean()),
+            median_sentence_word_count=float(np.median(sentence_word_counts)),
+            min_sentence_word_count=int(sentence_word_counts.min()),
+            max_sentence_word_count=int(sentence_word_counts.max()),
+            average_sentence_word_count=float(
+                np.average(sentence_word_counts)),
+            sentence_word_count_std=float(sentence_word_counts.std()),
+            sentence_word_count_variance=float(sentence_word_counts.var())
         )
 
     def _extract_named_entities(self, sentence_words):
