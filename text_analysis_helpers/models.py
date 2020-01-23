@@ -15,7 +15,7 @@ TextStatistics = namedtuple(
 
 WebPage = namedtuple(
     "WebPage",
-    ["url", "html", "headers"]
+    ["url", "html"]
 )
 
 SocialNetworkData = namedtuple(

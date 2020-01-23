@@ -31,6 +31,5 @@ def download_web_page(url, timeout=5, **kwargs):
 
     return WebPage(
         url=url,
-        html=response.text,
-        headers=dict(response.headers)
+        html=response.text
     )

@@ -24,10 +24,7 @@ class HtmlAnalyserTests(TestCase):
 
         web_page = WebPage(
             url="http://www.example.com",
-            html=content,
-            headers={
-                "Content-Type": "text/html"
-            }
+            html=content
         )
 
         analyser = HtmlAnalyser()
@@ -132,10 +129,7 @@ class HtmlAnalyserTests(TestCase):
     </head>
     <body>
     </body>
-</html""",
-            headers={
-                "Content-Type": "text/html"
-            }
+</html"""
         )
 
         analyser = HtmlAnalyser()
