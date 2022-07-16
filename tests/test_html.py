@@ -38,14 +38,14 @@ class HtmlAnalyserTests(TestCase):
         self.assertTrue(result.text.endswith(
             "lectus id ornare."))
         self.assertEqual(len(result.text), 1608)
-        self.assertEqual(len(result.keywords), 66)
+        self.assertEqual(len(result.keywords), 63)
         self.assertAlmostEqual(
-            max(result.keywords.values()), 62.366666, 3)
+            max(result.keywords.values()), 61.88333333333334, 3)
         self.assertAlmostEqual(
             min(result.keywords.values()), 1.0, 3)
         self.assertAlmostEqual(
-            result.keywords["ut laoreet nisi ligula"],
-            14.6818181, 3
+            result.keywords["Ut laoreet nisi ligula"],
+            15.354545454545455, 3
         )
         self.assertDictEqual(
             result.social_network_data.twitter,

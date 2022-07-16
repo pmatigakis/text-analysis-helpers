@@ -18,9 +18,8 @@ logger = logging.getLogger(__name__)
 class HtmlAnalyser(object):
     """Html content analyser"""
 
-    def __init__(self, keyword_stop_list=None):
-        self.__keyword_stop_list = keyword_stop_list
-        self.__text_analyser = TextAnalyser(keyword_stop_list)
+    def __init__(self):
+        self.__text_analyser = TextAnalyser()
 
     def analyse_url(self, url, timeout=5, headers=None, verify=True):
         """Download and analyse the contents of the given url

@@ -95,7 +95,25 @@
         </table>
         {% endif %}
         {% if analysis_result.social_network_data.opengraph %}
-        <h3>Twitter</h3>
+        <h3>Opengraph</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>namespace</th>
+                    <th>url</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for parameter_group in analysis_result.social_network_data.opengraph %}
+              {% for key, value in parameter_group["namespace"].items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+              {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
         <table>
             <thead>
                 <tr>
@@ -104,11 +122,13 @@
                 </tr>
             </thead>
             <tbody>
-            {% for key, value in analysis_result.social_network_data.opengraph.items() %}
+            {% for parameter_group in analysis_result.social_network_data.opengraph %}
+              {% for key, value in parameter_group["properties"] %}
                 <tr>
                     <td>{{ key }}</td>
                     <td>{{ value }}</td>
                 </tr>
+              {% endfor %}
             {% endfor %}
             </tbody>
         </table>

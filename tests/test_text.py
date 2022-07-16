@@ -15,7 +15,7 @@ class TextAnalyserTests(TestCase):
         current_date_mock.return_value = arrow.get(
             "2018-10-06T12:30:00.000000+00:00")
 
-        text = """>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Morbi ac odio tempus elit imperdiet commodo eu eget libero. Nullam eu ornare
 neque, tempus auctor libero. Sed et fermentum magna. Duis id mi vitae mi
 vehicula dignissim. Curabitur justo ante, posuere in lobortis ut, tristique ut
@@ -28,16 +28,16 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
 
         self.assertIsInstance(text_analysis_result, TextAnalysisResult)
         self.assertEqual(text_analysis_result.text, text)
-        self.assertEqual(len(text_analysis_result.keywords), 20)
+        self.assertEqual(len(text_analysis_result.keywords), 19)
         self.assertEqual(
-            text_analysis_result.keywords["curabitur justo ante"],
+            text_analysis_result.keywords["Curabitur justo ante"],
             9.0
         )
         self.assertDictEqual(
             text_analysis_result.readability_scores,
             {
-                "automated_readability_index": 8.8,
-                "coleman_liau_index": 12.66,
+                "automated_readability_index": 8.7,
+                "coleman_liau_index": 12.6,
                 "dale_chall_readability_score": 10.22,
                 "difficult_words": 31,
                 "flesch_kincaid_grade": 6.4,
@@ -51,16 +51,16 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
 
         statistics = text_analysis_result.statistics
         self.assertEqual(statistics.sentence_count, 10)
-        self.assertEqual(statistics.word_count, 96)
-        self.assertEqual(statistics.mean_sentence_word_count, 9.6)
-        self.assertEqual(statistics.median_sentence_word_count, 10.0)
+        self.assertEqual(statistics.word_count, 95)
+        self.assertEqual(statistics.mean_sentence_word_count, 9.5)
+        self.assertEqual(statistics.median_sentence_word_count, 9.5)
         self.assertEqual(statistics.min_sentence_word_count, 5)
         self.assertEqual(statistics.max_sentence_word_count, 13)
-        self.assertEqual(statistics.average_sentence_word_count, 9.6)
+        self.assertEqual(statistics.average_sentence_word_count, 9.5)
         self.assertAlmostEqual(
-            statistics.sentence_word_count_std, 2.33238075793812, 3)
+            statistics.sentence_word_count_std, 2.29128784747792, 3)
         self.assertAlmostEqual(
-            statistics.sentence_word_count_variance, 5.4399999999999995, 3)
+            statistics.sentence_word_count_variance, 5.25, 3)
 
         self.assertNotEqual(text_analysis_result.summary, text)
 
@@ -69,7 +69,9 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
             text_analysis_result.named_entities,
             {
                 'GPE': {
-                    'Morbi', 'Pellentesque', 'Duis', 'Nullam', 'Curabitur'},
+                    'Morbi', 'Pellentesque',
+                    'Duis', 'Nullam', "Lorem", 'Curabitur'
+                },
                 'PERSON': {'Quisque'}
             }
         )

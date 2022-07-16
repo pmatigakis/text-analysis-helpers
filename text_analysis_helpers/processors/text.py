@@ -1,21 +1,20 @@
-from rake.rake import Rake
-from rake.stoplists import get_stoplist_file_path
 from textstat.textstat import textstat
 from gensim.summarization.summarizer import summarize
+from nltk import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+
+from text_analysis_helpers.keywords.rake import Rake
 
 
-def extract_keywords(text, keyword_stop_list=None):
-    keyword_stop_list = keyword_stop_list or "SmartStoplist.txt"
-    rake = Rake(get_stoplist_file_path(keyword_stop_list))
+def extract_keywords(text):
+    rake = Rake(
+        word_tokenizer=word_tokenize,
+        sentence_tokenizer=sent_tokenize,
+        stop_words=stopwords.words("english"),
+        delimiters=[",", '’', '‘', '“', '”', '“', "?", '—', "."]
+    )
 
-    keywords = rake.run(text)
-
-    keywords = {
-        keyword: score
-        for keyword, score in keywords
-    }
-
-    return keywords
+    return rake.extract_keywords(text)
 
 
 def calculate_readability_scores(text):
