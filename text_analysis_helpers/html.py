@@ -1,13 +1,13 @@
 import logging
 
 from bs4 import BeautifulSoup
+import extruct
 
 from text_analysis_helpers.downloaders import download_web_page
 from text_analysis_helpers.exceptions import ContentExtractionFailed
 from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
 from text_analysis_helpers.processors.html import (
-    extract_opengraph_data, extract_page_content, extract_page_data,
-    extract_twitter_card
+    extract_page_content, extract_page_data, extract_twitter_card
 )
 from text_analysis_helpers.text import TextAnalyser
 
@@ -56,7 +56,7 @@ class HtmlAnalyser(object):
         text_analysis_result = self.__text_analyser.analyse(page_content.text)
         soup = BeautifulSoup(web_page.html, "html.parser")
         page_data = extract_page_data(soup)
-        opengraph_data = extract_opengraph_data(web_page.html)
+        extracted_data = extruct.extract(web_page.html, base_url=web_page.url)
         twitter_card = extract_twitter_card(soup)
 
         return HtmlAnalysisResult(
@@ -64,7 +64,7 @@ class HtmlAnalyser(object):
             html=web_page.html,
             title=page_data["title"],
             social_network_data=SocialNetworkData(
-                opengraph=opengraph_data,
+                opengraph=extracted_data.get("opengraph"),
                 twitter=twitter_card
             ),
             text_data=text_analysis_result,

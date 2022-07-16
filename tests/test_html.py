@@ -57,18 +57,23 @@ class HtmlAnalyserTests(TestCase):
                 "site": "@example_site"
             }
         )
-        self.assertDictEqual(
+        self.assertEqual(
             result.social_network_data.opengraph,
-            {
-                "_url": None,
-                "description": "test page 1 description",
-                "image": "https://example.com/image_1.png",
-                "scrape": False,
-                "site_name": "test page 1 site",
-                "title": "test page 1 title",
-                "type": "article",
-                "url": "https://example.com"
-            }
+            [
+                {
+                    'namespace': {
+                        'og': 'http://ogp.me/ns#'
+                    },
+                    'properties': [
+                        ('og:description', 'test page 1 description'),
+                        ('og:type', 'article'),
+                        ('og:site_name', 'test page 1 site'),
+                        ('og:title', 'test page 1 title'),
+                        ('og:url', 'https://example.com'),
+                        ('og:image', 'https://example.com/image_1.png')
+                    ]
+                }
+            ]
         )
         self.assertDictEqual(
             result.readability_scores,

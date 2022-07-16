@@ -1,7 +1,6 @@
 from logging import getLogger
 
 from newspaper import Article
-from opengraph.opengraph import OpenGraph
 
 
 logger = getLogger(__name__)
@@ -21,13 +20,6 @@ def extract_page_data(soup):
     return {
         "title": title.text if title else None
     }
-
-
-def extract_opengraph_data(html_content):
-    opengraph = OpenGraph()
-    opengraph.parser(html_content)
-
-    return opengraph if opengraph.is_valid() else None
 
 
 def extract_twitter_card(soup):
