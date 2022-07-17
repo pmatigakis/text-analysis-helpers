@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 
 def get_long_description():
@@ -8,11 +8,7 @@ def get_long_description():
 
 def read_requirements_file(filename):
     with open(filename) as f:
-        return [
-            line.strip()
-            for line in f
-            if not line.startswith("-e")
-        ]
+        return [line.strip() for line in f if not line.startswith("-e")]
 
 
 setup(
@@ -31,20 +27,20 @@ setup(
     zip_safe=False,
     include_package_data=True,
     entry_points={
-        'console_scripts': [
-            'text-analysis-helpers-cli=text_analysis_helpers.cli:main'
+        "console_scripts": [
+            "text-analysis-helpers-cli=text_analysis_helpers.cli:main"
         ]
     },
     classifiers=(
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'Natural Language :: English',
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: Implementation :: CPython',
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: Implementation :: CPython",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-    )
+    ),
 )

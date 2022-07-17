@@ -1,27 +1,27 @@
-from collections import namedtuple
-from abc import ABCMeta, abstractmethod
 import json
+from abc import ABCMeta, abstractmethod
+from collections import namedtuple
 
 from text_analysis_helpers.helpers import current_date
 
-
 TextStatistics = namedtuple(
     "TextStatistics",
-    ["sentence_count", "word_count", "mean_sentence_word_count",
-     "median_sentence_word_count", "min_sentence_word_count",
-     "max_sentence_word_count", "average_sentence_word_count",
-     "sentence_word_count_std", "sentence_word_count_variance"]
+    [
+        "sentence_count",
+        "word_count",
+        "mean_sentence_word_count",
+        "median_sentence_word_count",
+        "min_sentence_word_count",
+        "max_sentence_word_count",
+        "average_sentence_word_count",
+        "sentence_word_count_std",
+        "sentence_word_count_variance",
+    ],
 )
 
-WebPage = namedtuple(
-    "WebPage",
-    ["url", "html"]
-)
+WebPage = namedtuple("WebPage", ["url", "html"])
 
-SocialNetworkData = namedtuple(
-    "SocialNetworkData",
-    ["opengraph", "twitter"]
-)
+SocialNetworkData = namedtuple("SocialNetworkData", ["opengraph", "twitter"])
 
 
 class BaseAnalysisResult(metaclass=ABCMeta):
@@ -50,7 +50,7 @@ class BaseAnalysisResult(metaclass=ABCMeta):
         """
         return {
             "created_at": self.created_at.strftime("%Y-%m-%d %H:%M:%S %z"),
-            "created_at_timestamp": self.created_at_timestamp
+            "created_at_timestamp": self.created_at_timestamp,
         }
 
     def as_json(self):
@@ -65,8 +65,15 @@ class BaseAnalysisResult(metaclass=ABCMeta):
 class TextAnalysisResult(BaseAnalysisResult):
     """Text analysis result"""
 
-    def __init__(self, text, keywords, readability_scores, statistics,
-                 summary, named_entities):
+    def __init__(
+        self,
+        text,
+        keywords,
+        readability_scores,
+        statistics,
+        summary,
+        named_entities,
+    ):
         """Create a new TextAnalysisResult object
 
         :param str text: the text that was analysed
@@ -93,14 +100,16 @@ class TextAnalysisResult(BaseAnalysisResult):
             for named_entity_type in self.named_entities
         }
 
-        data.update({
-            "text": self.text,
-            "keywords": self.keywords,
-            "readability_scores": self.readability_scores,
-            "statistics": dict(self.statistics._asdict()),
-            "summary": self.summary,
-            "named_entities": named_entities
-        })
+        data.update(
+            {
+                "text": self.text,
+                "keywords": self.keywords,
+                "readability_scores": self.readability_scores,
+                "statistics": dict(self.statistics._asdict()),
+                "summary": self.summary,
+                "named_entities": named_entities,
+            }
+        )
 
         return data
 
@@ -108,8 +117,9 @@ class TextAnalysisResult(BaseAnalysisResult):
 class HtmlAnalysisResult(TextAnalysisResult):
     """Html analysis result"""
 
-    def __init__(self, url, html, title, social_network_data, text_data,
-                 page_content):
+    def __init__(
+        self, url, html, title, social_network_data, text_data, page_content
+    ):
         """Create a new HtmlAnalysisResult object
 
         :param str url: the web page url
@@ -127,7 +137,7 @@ class HtmlAnalysisResult(TextAnalysisResult):
             readability_scores=text_data.readability_scores,
             statistics=text_data.statistics,
             summary=text_data.summary,
-            named_entities=text_data.named_entities
+            named_entities=text_data.named_entities,
         )
 
         self.url = url
@@ -141,17 +151,19 @@ class HtmlAnalysisResult(TextAnalysisResult):
     def as_dict(self):
         data = super(HtmlAnalysisResult, self).as_dict()
 
-        data.update({
-            "url": self.url,
-            "html": self.html,
-            "title": self.title,
-            "top_image": self.top_image,
-            "images": list(self.images),
-            "movies": self.movies,
-            "social_network_data": {
-                "twitter": self.social_network_data.twitter,
-                "opengraph": self.social_network_data.opengraph
+        data.update(
+            {
+                "url": self.url,
+                "html": self.html,
+                "title": self.title,
+                "top_image": self.top_image,
+                "images": list(self.images),
+                "movies": self.movies,
+                "social_network_data": {
+                    "twitter": self.social_network_data.twitter,
+                    "opengraph": self.social_network_data.opengraph,
+                },
             }
-        })
+        )
 
         return data

@@ -14,9 +14,7 @@ def download_web_page(url, timeout=5, **kwargs):
     :rtype: WebPage
     :return: the web page contents
     """
-    _kwargs = {
-        "timeout": timeout
-    }
+    _kwargs = {"timeout": timeout}
     _kwargs.update(kwargs)
 
     response = requests.get(url, **_kwargs)
@@ -26,10 +24,7 @@ def download_web_page(url, timeout=5, **kwargs):
             message="failed to download web page",
             url=url,
             status_code=response.status_code,
-            response=response.text
+            response=response.text,
         )
 
-    return WebPage(
-        url=url,
-        html=response.text
-    )
+    return WebPage(url=url, html=response.text)

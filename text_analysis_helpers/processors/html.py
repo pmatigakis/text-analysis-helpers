@@ -2,7 +2,6 @@ from logging import getLogger
 
 from newspaper import Article
 
-
 logger = getLogger(__name__)
 
 
@@ -17,9 +16,7 @@ def extract_page_content(url, html_content):
 def extract_page_data(soup):
     title = soup.find("title")
 
-    return {
-        "title": title.text if title else None
-    }
+    return {"title": title.text if title else None}
 
 
 def extract_twitter_card(soup):

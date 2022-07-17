@@ -1,16 +1,17 @@
 import logging
 
-from bs4 import BeautifulSoup
 import extruct
+from bs4 import BeautifulSoup
 
 from text_analysis_helpers.downloaders import download_web_page
 from text_analysis_helpers.exceptions import ContentExtractionFailed
 from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
 from text_analysis_helpers.processors.html import (
-    extract_page_content, extract_page_data, extract_twitter_card
+    extract_page_content,
+    extract_page_data,
+    extract_twitter_card,
 )
 from text_analysis_helpers.text import TextAnalyser
-
 
 logger = logging.getLogger(__name__)
 
@@ -32,10 +33,7 @@ class HtmlAnalyser(object):
         :return: the analysis result
         """
         web_page = download_web_page(
-            url=url,
-            timeout=timeout,
-            headers=headers,
-            verify=verify
+            url=url, timeout=timeout, headers=headers, verify=verify
         )
 
         return self.analyse(web_page)
@@ -63,9 +61,8 @@ class HtmlAnalyser(object):
             html=web_page.html,
             title=page_data["title"],
             social_network_data=SocialNetworkData(
-                opengraph=extracted_data.get("opengraph"),
-                twitter=twitter_card
+                opengraph=extracted_data.get("opengraph"), twitter=twitter_card
             ),
             text_data=text_analysis_result,
-            page_content=page_content
+            page_content=page_content,
         )
