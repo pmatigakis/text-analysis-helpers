@@ -1,2 +1,1 @@
-recursive-include text_analysis_helpers/templates *
 include README.md LICENSE requirements.txt requirements-test.txt
