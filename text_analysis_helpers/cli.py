@@ -31,13 +31,13 @@ def get_arguments():
     url_parser = subparsers.add_parser(
         "analyse-url",
         description="analyse the contents of a url",
-        help="analyse the contents of a url"
+        help="analyse the contents of a url",
     )
 
     url_parser.add_argument(
         "--output",
         default="analysis_result.html",
-        help="the name of the file in which to save the result"
+        help="the name of the file in which to save the result",
     )
 
     url_parser.add_argument("--json", action="store_true")
@@ -47,13 +47,13 @@ def get_arguments():
     file_parser = subparsers.add_parser(
         "analyse-file",
         description="analyse the contents of a file",
-        help="analyse the contents of a file"
+        help="analyse the contents of a file",
     )
 
     file_parser.add_argument(
         "--output",
         default="analysis_result.html",
-        help="the name of the file in which to save the result"
+        help="the name of the file in which to save the result",
     )
 
     file_parser.add_argument("--json", action="store_true")

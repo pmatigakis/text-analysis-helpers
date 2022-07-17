@@ -13,7 +13,8 @@ class TextAnalyserTests(TestCase):
     @patch("text_analysis_helpers.models.current_date")
     def test_analyse(self, current_date_mock):
         current_date_mock.return_value = arrow.get(
-            "2018-10-06T12:30:00.000000+00:00")
+            "2018-10-06T12:30:00.000000+00:00"
+        )
 
         text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Morbi ac odio tempus elit imperdiet commodo eu eget libero. Nullam eu ornare
@@ -30,8 +31,7 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertEqual(text_analysis_result.text, text)
         self.assertEqual(len(text_analysis_result.keywords), 19)
         self.assertEqual(
-            text_analysis_result.keywords["Curabitur justo ante"],
-            9.0
+            text_analysis_result.keywords["Curabitur justo ante"], 9.0
         )
         self.assertDictEqual(
             text_analysis_result.readability_scores,
@@ -45,8 +45,8 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
                 "gunning_fog": 20.856202531645568,
                 "linsear_write_formula": 2.65,
                 "smog_index": 9.4,
-                "text_standard": '8th and 9th grade'
-            }
+                "text_standard": "8th and 9th grade",
+            },
         )
 
         statistics = text_analysis_result.statistics
@@ -58,9 +58,11 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertEqual(statistics.max_sentence_word_count, 13)
         self.assertEqual(statistics.average_sentence_word_count, 9.5)
         self.assertAlmostEqual(
-            statistics.sentence_word_count_std, 2.29128784747792, 3)
+            statistics.sentence_word_count_std, 2.29128784747792, 3
+        )
         self.assertAlmostEqual(
-            statistics.sentence_word_count_variance, 5.25, 3)
+            statistics.sentence_word_count_variance, 5.25, 3
+        )
 
         self.assertNotEqual(text_analysis_result.summary, text)
 
@@ -68,18 +70,22 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertDictEqual(
             text_analysis_result.named_entities,
             {
-                'GPE': {
-                    'Morbi', 'Pellentesque',
-                    'Duis', 'Nullam', "Lorem", 'Curabitur'
+                "GPE": {
+                    "Morbi",
+                    "Pellentesque",
+                    "Duis",
+                    "Nullam",
+                    "Lorem",
+                    "Curabitur",
                 },
-                'PERSON': {'Quisque'}
-            }
+                "PERSON": {"Quisque"},
+            },
         )
 
         self.assertEqual(text_analysis_result.created_at_timestamp, 1538829000)
         self.assertEqual(
             text_analysis_result.created_at,
-            datetime(2018, 10, 6, 12, 30, tzinfo=tzutc())
+            datetime(2018, 10, 6, 12, 30, tzinfo=tzutc()),
         )
 
 

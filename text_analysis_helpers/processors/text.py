@@ -1,7 +1,7 @@
-from textstat.textstat import textstat
 from gensim.summarization.summarizer import summarize
-from nltk import word_tokenize, sent_tokenize
+from nltk import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+from textstat.textstat import textstat
 
 from text_analysis_helpers.keywords.rake import Rake
 
@@ -11,7 +11,7 @@ def extract_keywords(text):
         word_tokenizer=word_tokenize,
         sentence_tokenizer=sent_tokenize,
         stop_words=stopwords.words("english"),
-        delimiters=[",", '’', '‘', '“', '”', '“', "?", '—', "."]
+        delimiters=[",", "’", "‘", "“", "”", "“", "?", "—", "."],
     )
 
     return rake.extract_keywords(text)
@@ -19,10 +19,16 @@ def extract_keywords(text):
 
 def calculate_readability_scores(text):
     score_functions = [
-        "flesch_reading_ease", "smog_index", "flesch_kincaid_grade",
-        "coleman_liau_index", "automated_readability_index",
-        "dale_chall_readability_score", "difficult_words",
-        "linsear_write_formula", "gunning_fog", "text_standard"
+        "flesch_reading_ease",
+        "smog_index",
+        "flesch_kincaid_grade",
+        "coleman_liau_index",
+        "automated_readability_index",
+        "dale_chall_readability_score",
+        "difficult_words",
+        "linsear_write_formula",
+        "gunning_fog",
+        "text_standard",
     ]
 
     return {

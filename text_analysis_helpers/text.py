@@ -1,24 +1,26 @@
 import itertools
 from collections import defaultdict
 
+import numpy as np
 from nltk import sent_tokenize, word_tokenize
 from nltk.data import load as nltk_data_load
 from nltk.tag.perceptron import PerceptronTagger
 from nltk.tree import Tree
-import numpy as np
-
 
 from text_analysis_helpers.models import TextAnalysisResult, TextStatistics
 from text_analysis_helpers.processors.text import (
-    extract_keywords, calculate_readability_scores, create_summary
+    calculate_readability_scores,
+    create_summary,
+    extract_keywords,
 )
 
 
 class TextAnalyser(object):
     """Text analyser"""
 
-    MULTICLASS_NE_CHUNKER = \
+    MULTICLASS_NE_CHUNKER = (
         "chunkers/maxent_ne_chunker/english_ace_multiclass.pickle"
+    )
 
     def __init__(self):
         self.__pos_tagger = PerceptronTagger()
@@ -46,7 +48,8 @@ class TextAnalyser(object):
         words = list(itertools.chain(*sentence_words))
 
         sentence_word_counts = np.array(
-            [len(sentence) for sentence in sentence_words])
+            [len(sentence) for sentence in sentence_words]
+        )
 
         return TextStatistics(
             sentence_count=len(sentences),
@@ -56,9 +59,10 @@ class TextAnalyser(object):
             min_sentence_word_count=int(sentence_word_counts.min()),
             max_sentence_word_count=int(sentence_word_counts.max()),
             average_sentence_word_count=float(
-                np.average(sentence_word_counts)),
+                np.average(sentence_word_counts)
+            ),
             sentence_word_count_std=float(sentence_word_counts.std()),
-            sentence_word_count_variance=float(sentence_word_counts.var())
+            sentence_word_count_variance=float(sentence_word_counts.var()),
         )
 
     def _extract_named_entities(self, sentence_words):
@@ -72,10 +76,12 @@ class TextAnalyser(object):
         :rtype: dict[str: set]
         :return: the extracted dictionary words
         """
-        tagged_sentences = [self.__pos_tagger.tag(sentence)
-                            for sentence in sentence_words]
-        chunked_sentences = [self.__ne_chunker.parse(sentence)
-                             for sentence in tagged_sentences]
+        tagged_sentences = [
+            self.__pos_tagger.tag(sentence) for sentence in sentence_words
+        ]
+        chunked_sentences = [
+            self.__ne_chunker.parse(sentence) for sentence in tagged_sentences
+        ]
 
         named_entities = defaultdict(set)
         for sentence in chunked_sentences:
@@ -121,5 +127,5 @@ class TextAnalyser(object):
             readability_scores=readability_scores,
             statistics=statistics,
             summary=summary,
-            named_entities=named_entities
+            named_entities=named_entities,
         )

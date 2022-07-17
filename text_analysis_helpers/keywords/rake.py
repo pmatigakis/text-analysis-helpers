@@ -6,7 +6,8 @@ class Rake:
     """RAKE keyword extractor"""
 
     def __init__(
-            self, word_tokenizer, sentence_tokenizer, stop_words, delimiters):
+        self, word_tokenizer, sentence_tokenizer, stop_words, delimiters
+    ):
         """Create a new Rake objects
 
         :param func word_tokenizer: a callable that splits a sentence into a
@@ -116,12 +117,13 @@ class Rake:
         for word in word_co_occurrences:
             deg = sum(word_co_occurrences[word].values())
             freq = word_co_occurrences[word][word]
-            word_scores[word] = deg/freq
+            word_scores[word] = deg / freq
 
         return word_scores
 
     def _calculate_candidate_keyword_scores(
-            self, candidate_keywords, word_scores):
+        self, candidate_keywords, word_scores
+    ):
         """Calculate the candidate keyword scores
 
         :param list[list[str]] candidate_keywords: the list of candidate
@@ -152,12 +154,14 @@ class Rake:
         for candidate in candidate_keywords:
             normalised_candidate = tuple([word.lower() for word in candidate])
             candidate_keyword_aliases[normalised_candidate].add(
-                tuple(candidate))
+                tuple(candidate)
+            )
 
         return candidate_keyword_aliases
 
     def _calculate_candidate_keyword_aliases_scores(
-            self, candidate_keyword_aliases, candidate_scores):
+        self, candidate_keyword_aliases, candidate_scores
+    ):
         """Calculate the scores of the keyword aliases
 
         :param dict[tuple, list[tuple]] candidate_keyword_aliases: the keyword
@@ -169,12 +173,14 @@ class Rake:
         normalized_candidates_scores = defaultdict(float)
         for candidate_keyword_alias in candidate_keyword_aliases.values():
             primary_candidate, *candidate_aliases = candidate_keyword_alias
-            normalized_candidates_scores[primary_candidate] = (
-                candidate_scores[primary_candidate])
+            normalized_candidates_scores[primary_candidate] = candidate_scores[
+                primary_candidate
+            ]
 
             for candidate_alias in candidate_aliases:
-                normalized_candidates_scores[primary_candidate] += (
-                    candidate_scores[candidate_alias])
+                normalized_candidates_scores[
+                    primary_candidate
+                ] += candidate_scores[candidate_alias]
 
         return normalized_candidates_scores
 
@@ -188,16 +194,21 @@ class Rake:
         """
         tokenized_document = self._tokenize_document(document)
         candidate_keywords = self._extract_candidate_keywords(
-            tokenized_document)
+            tokenized_document
+        )
         word_co_occurrences = self._calculate_word_co_occurrences(
-            candidate_keywords)
+            candidate_keywords
+        )
         word_scores = self._calculate_word_scores(word_co_occurrences)
         candidate_scores = self._calculate_candidate_keyword_scores(
-            candidate_keywords, word_scores)
+            candidate_keywords, word_scores
+        )
         candidate_keyword_aliases = self._find_candidate_keyword_aliases(
-            candidate_keywords)
+            candidate_keywords
+        )
         candidate_scores = self._calculate_candidate_keyword_aliases_scores(
-            candidate_keyword_aliases, candidate_scores)
+            candidate_keyword_aliases, candidate_scores
+        )
 
         return {
             " ".join(candicate_keyword): score
