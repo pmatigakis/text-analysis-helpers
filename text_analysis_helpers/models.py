@@ -2,7 +2,7 @@ from collections import namedtuple
 from abc import ABCMeta, abstractmethod
 import json
 
-from text_analysis_helpers.helpers import render_analysis_result, current_date
+from text_analysis_helpers.helpers import current_date
 
 
 TextStatistics = namedtuple(
@@ -27,42 +27,13 @@ SocialNetworkData = namedtuple(
 class BaseAnalysisResult(metaclass=ABCMeta):
     """Base model for all analysis results"""
 
-    DEFAULT_TEMPLATE = None
-
     def __init__(self):
         creation_date = current_date()
 
         self.created_at = creation_date.datetime
         self.created_at_timestamp = creation_date.timestamp
 
-    def render(self, template=None):
-        """Render the analysis result into the given jinja2 template
-
-        If a template is not given then this object will attempt to render the
-        analysis result using the default template of the BaseAnalysisResult
-        implementation.
-
-        :param str|none template: the path to a jinja2 template
-        """
-        template = template or self.DEFAULT_TEMPLATE
-
-        return render_analysis_result(self, template)
-
-    def save(self, output_file, template=None):
-        """Save the analysis result to a file
-
-        :param str output_file: the out file
-        :param str|None template: render the analysis result using this jinja2
-            template. If a template is not given then we will use the default
-            template for the BaseAnalysisResult implementation
-        :return:
-        """
-        content = self.render(template=template)
-
-        with open(output_file, "w") as f:
-            f.write(content)
-
-    def save_json(self, output_file):
+    def save(self, output_file):
         """Encode to json and save to a file
 
         :param str output_file: the output file
@@ -93,8 +64,6 @@ class BaseAnalysisResult(metaclass=ABCMeta):
 
 class TextAnalysisResult(BaseAnalysisResult):
     """Text analysis result"""
-
-    DEFAULT_TEMPLATE = "text_analysis_result.html"
 
     def __init__(self, text, keywords, readability_scores, statistics,
                  summary, named_entities):
@@ -138,8 +107,6 @@ class TextAnalysisResult(BaseAnalysisResult):
 
 class HtmlAnalysisResult(TextAnalysisResult):
     """Html analysis result"""
-
-    DEFAULT_TEMPLATE = "html_analysis_result.html"
 
     def __init__(self, url, html, title, social_network_data, text_data,
                  page_content):
