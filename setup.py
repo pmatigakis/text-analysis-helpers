@@ -13,7 +13,7 @@ def read_requirements_file(filename):
 
 setup(
     name="text-analysis-helpers",
-    version="0.3.0",
+    version="0.4.0",
     author="Panagiotis Matigakis",
     author_email="pmatigakis@gmail.com",
     description="Collection of classes and functions for text analysis",
