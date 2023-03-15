@@ -5,11 +5,13 @@ Text-analysis-helpers is a collection of classes and functions for text analysis
 ## Installation
 
 A Python 3 interpreter is required. It is recommended to install the package in
-a virtual environment in order to avoid corrupting the system's Python interpeter
+a virtual environment in order to avoid corrupting the system's Python interpreter
 packages.
 
+Install the package using poetry.
+
 ```bash
-pip install text-analysis-helpers
+poetry add "git+https://github.com/pmatigakis/text-analysis-helpers.git"
 
 python -m nltk.downloader "punkt"
 python -m nltk.downloader "averaged_perceptron_tagger"
