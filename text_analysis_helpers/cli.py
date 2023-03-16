@@ -7,21 +7,13 @@ from text_analysis_helpers.text import TextAnalyser
 def analyse_url(args):
     analyser = HtmlAnalyser()
     analysis_result = analyser.analyse_url(args.url)
-
-    if args.json:
-        analysis_result.save_json(args.output)
-    else:
-        analysis_result.save(args.output)
+    analysis_result.save(args.output)
 
 
 def analyse_file(args):
     analyser = TextAnalyser()
     analysis_result = analyser.analyse_file(args.filename)
-
-    if args.json:
-        analysis_result.save_json(args.output)
-    else:
-        analysis_result.save(args.output)
+    analysis_result.save(args.output)
 
 
 def get_arguments():
@@ -36,11 +28,10 @@ def get_arguments():
 
     url_parser.add_argument(
         "--output",
-        default="analysis_result.html",
+        default="analysis_result.json",
         help="the name of the file in which to save the result",
     )
 
-    url_parser.add_argument("--json", action="store_true")
     url_parser.add_argument("url", help="the url to analyse")
     url_parser.set_defaults(func=analyse_url)
 
@@ -52,11 +43,10 @@ def get_arguments():
 
     file_parser.add_argument(
         "--output",
-        default="analysis_result.html",
+        default="analysis_result.json",
         help="the name of the file in which to save the result",
     )
 
-    file_parser.add_argument("--json", action="store_true")
     file_parser.add_argument("filename", help="the file to analyse")
     file_parser.set_defaults(func=analyse_file)
 

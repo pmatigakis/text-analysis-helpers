@@ -4,7 +4,6 @@ import extruct
 from bs4 import BeautifulSoup
 
 from text_analysis_helpers.downloaders import download_web_page
-from text_analysis_helpers.exceptions import ContentExtractionFailed
 from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
 from text_analysis_helpers.processors.html import (
     extract_page_content,
@@ -46,11 +45,8 @@ class HtmlAnalyser(object):
         :rtype: HtmlAnalysisResult
         :return: the analysis result
         """
-        page_content = extract_page_content(web_page.url, web_page.html)
-        if not page_content.text:
-            raise ContentExtractionFailed()
-
-        text_analysis_result = self.__text_analyser.analyse(page_content.text)
+        page_content = extract_page_content(web_page.html)
+        text_analysis_result = self.__text_analyser.analyse(page_content)
         soup = BeautifulSoup(web_page.html, "html.parser")
         page_data = extract_page_data(soup)
         extracted_data = extruct.extract(web_page.html, base_url=web_page.url)
@@ -64,5 +60,4 @@ class HtmlAnalyser(object):
                 opengraph=extracted_data.get("opengraph"), twitter=twitter_card
             ),
             text_data=text_analysis_result,
-            page_content=page_content,
         )
