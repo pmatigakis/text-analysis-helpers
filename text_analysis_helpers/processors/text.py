@@ -1,6 +1,10 @@
-from gensim.summarization.summarizer import summarize
 from nltk import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+from sumy.nlp.stemmers import Stemmer
+from sumy.nlp.tokenizers import Tokenizer
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.summarizers.lsa import LsaSummarizer as Summarizer
+from sumy.utils import get_stop_words
 from textstat.textstat import textstat
 
 from text_analysis_helpers.keywords.rake import Rake
@@ -37,5 +41,15 @@ def calculate_readability_scores(text):
     }
 
 
-def create_summary(text):
-    return summarize(text)
+def create_summary(text, language="english", sentence_count=10):
+    parser = PlaintextParser.from_string(text, Tokenizer(language))
+    stemmer = Stemmer(language)
+    summarizer = Summarizer(stemmer)
+    summarizer.stop_words = get_stop_words(language)
+
+    return " ".join(
+        [
+            str(sentence)
+            for sentence in summarizer(parser.document, sentence_count)
+        ]
+    )
