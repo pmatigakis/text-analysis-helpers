@@ -41,7 +41,7 @@ def calculate_readability_scores(text):
     }
 
 
-def create_summary(text, language="english", sentence_count=10):
+def create_summary(text, language="english", sentence_count=5):
     parser = PlaintextParser.from_string(text, Tokenizer(language))
     stemmer = Stemmer(language)
     summarizer = Summarizer(stemmer)
