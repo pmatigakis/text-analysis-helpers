@@ -11,21 +11,14 @@ python-dateutil = ">=2.7.0"
 
 [[package]]
 name = "article-extraction"
-version = "0.2.0"
+version = "0.3.0"
 description = "Article text extraction library"
 category = "main"
 optional = false
-python-versions = "^3.8"
-develop = false
+python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
 lxml = ">=4.7.1"
-
-[package.source]
-type = "git"
-url = "https://github.com/pmatigakis/article_extraction.git"
-reference = "0.2.0"
-resolved_reference = "d2c6c65c7eb7e879558e44908ce3822053919397"
 
 [[package]]
 name = "bandit"
@@ -739,7 +732,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "cfa755624fa16e87000278c268464b51c389c6f51541c55ae502c01fa719d269"
+content-hash = "729d8eab1a9ae9e8278ccbb5f398d2e7510cda43449ef9d785308d8617aa1272"
 
 [metadata.files]
 arrow = []

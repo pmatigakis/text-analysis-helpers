@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from article_extraction.mss import MSSArticleExtractor
+from articles.mss.extractors import MSSArticleExtractor
 
 logger = getLogger(__name__)
 
