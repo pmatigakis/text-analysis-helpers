@@ -136,6 +136,17 @@ optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 
 [[package]]
+name = "coverage"
+version = "7.2.2"
+description = "Code coverage measurement for Python"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+toml = ["tomli"]
+
+[[package]]
 name = "distlib"
 version = "0.3.6"
 description = "Distribution utilities"
@@ -731,7 +742,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "7e87eb135f4c3ab51be876dd231e388ef19d9e727fa1c3bfc384971a59127748"
+content-hash = "1caf6a5dd36c7da7a9872a655bd3cc9f355514fbb89fe5570a01f3a7c9cc4d25"
 
 [metadata.files]
 arrow = []
@@ -746,6 +757,7 @@ chardet = []
 charset-normalizer = []
 click = []
 colorama = []
+coverage = []
 distlib = []
 docopt = []
 extruct = []
