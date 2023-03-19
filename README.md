@@ -2,7 +2,7 @@
 
 Text-analysis-helpers is a collection of classes and functions for text analysis.
 
-## Installation
+# Installation
 
 A Python 3 interpreter is required. It is recommended to install the package in
 a virtual environment in order to avoid corrupting the system's Python interpreter
@@ -20,7 +20,7 @@ python -m nltk.downloader "words"
 python -m nltk.downloader "stopwords"
 ```
 
-## Usage
+# Usage
 
 You can use the HtmlAnalyser object to analyse the contents of a url.
 
