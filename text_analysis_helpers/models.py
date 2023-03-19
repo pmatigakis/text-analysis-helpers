@@ -147,11 +147,12 @@ class HtmlAnalysisResult(TextAnalysisResult):
 
     def _extract_images(self, social_network_data):
         self.images = []
+        twitter_data = social_network_data.twitter or {}
 
-        image = social_network_data.twitter.get("image")
+        image = twitter_data.get("image")
         if image:
             self.images.append(image)
-        image = social_network_data.twitter.get("image:src")
+        image = twitter_data.get("image:src")
         if image and image not in self.images:
             self.images.append(image)
 

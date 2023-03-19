@@ -28,9 +28,9 @@ You can use the HtmlAnalyser object to analyse the contents of a url.
 from text_analysis_helpers.html import HtmlAnalyser
 
 analyser = HtmlAnalyser()
-analysis_result = analyser.analyse_url("http://www.add-a-url-here.com")
+analysis_result = analyser.analyse_url("https://www.bbc.com/sport/formula1/64983451")
 
-analysis_result.save("analysis_result.html")
+analysis_result.save("analysis_result.json")
 ```
 
 You can see the scripts in the `examples` folder for some usage examples.
@@ -40,5 +40,5 @@ analyse a url and save the analysis result to a json encoded file execute the
 following command in the terminal.
 
 ```bash
-text-analysis-helpers-cli analyse-url --output analysis_result.json https://www.the-url-to-analyse.com
+text-analysis-helpers-cli analyse-url --output analysis_result.json https://www.bbc.com/sport/formula1/64983451
 ```
