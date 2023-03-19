@@ -117,9 +117,7 @@ class TextAnalysisResult(BaseAnalysisResult):
 class HtmlAnalysisResult(TextAnalysisResult):
     """Html analysis result"""
 
-    def __init__(
-        self, url, html, title, social_network_data, text_data, page_content
-    ):
+    def __init__(self, url, html, title, social_network_data, text_data):
         """Create a new HtmlAnalysisResult object
 
         :param str url: the web page url
@@ -129,7 +127,6 @@ class HtmlAnalysisResult(TextAnalysisResult):
             network data
         :param TextAnalysisResult text_data: the text analysis result for the
             text that was extracted from the web page
-        :param newspaper.Article page_content: the analysed article data
         """
         super(HtmlAnalysisResult, self).__init__(
             text=text_data.text,
@@ -144,9 +141,33 @@ class HtmlAnalysisResult(TextAnalysisResult):
         self.html = html
         self.title = title
         self.social_network_data = social_network_data
-        self.top_image = page_content.top_image
-        self.images = page_content.imgs
-        self.movies = page_content.movies
+
+        self._extract_images(social_network_data)
+        self._extract_videos(social_network_data)
+
+    def _extract_images(self, social_network_data):
+        self.images = []
+        twitter_data = social_network_data.twitter or {}
+
+        image = twitter_data.get("image")
+        if image:
+            self.images.append(image)
+        image = twitter_data.get("image:src")
+        if image and image not in self.images:
+            self.images.append(image)
+
+        for opengraph_item in social_network_data.opengraph or []:
+            for property_name, value in opengraph_item.get("properties", []):
+                if property_name == "og:image" and value not in self.images:
+                    self.images.append(value)
+
+    def _extract_videos(self, social_network_data):
+        self.movies = []
+
+        for opengraph_item in social_network_data.opengraph or []:
+            for property_name, value in opengraph_item.get("properties", []):
+                if property_name == "og:video" and value not in self.movies:
+                    self.movies.append(value)
 
     def as_dict(self):
         data = super(HtmlAnalysisResult, self).as_dict()
@@ -156,7 +177,6 @@ class HtmlAnalysisResult(TextAnalysisResult):
                 "url": self.url,
                 "html": self.html,
                 "title": self.title,
-                "top_image": self.top_image,
                 "images": list(self.images),
                 "movies": self.movies,
                 "social_network_data": {

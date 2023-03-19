@@ -1,16 +1,14 @@
 from logging import getLogger
 
-from newspaper import Article
+from articles.mss.extractors import MSSArticleExtractor
 
 logger = getLogger(__name__)
 
 
-def extract_page_content(url, html_content):
-    article = Article(url)
-    article.download(input_html=html_content)
-    article.parse()
+def extract_page_content(html_content):
+    article_extractor = MSSArticleExtractor()
 
-    return article
+    return article_extractor.extract_article(html_content)
 
 
 def extract_page_data(soup):

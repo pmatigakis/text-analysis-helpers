@@ -1,5 +1,5 @@
+import json
 from unittest import TestCase, main
-from unittest.mock import Mock
 
 import arrow
 
@@ -89,8 +89,7 @@ class TextAnalysisResultTest(TestCase):
         json_data = self.analysis_result.as_json()
 
         self.assertIsInstance(json_data, str)
-        self.assertTrue(json_data.startswith("{"))
-        self.assertTrue(json_data.endswith("}"))
+        json.loads(json_data)
 
 
 class HtmlAnalysisResultTest(TestCase):
@@ -128,14 +127,17 @@ class HtmlAnalysisResultTest(TestCase):
         )
 
         social_netword_data = SocialNetworkData(
-            twitter={"twitter_item": "twitter_item_value"},
-            opengraph={"opengraph_item": "opengraph_item_value"},
+            twitter={"title": "twitter title"},
+            opengraph=[
+                {
+                    "properties": [
+                        ("og:title", "opengraph title"),
+                        ("og:image", "http://www.example.com/image.png"),
+                        ("og:video", "http://www.example.com/movie.mp4"),
+                    ]
+                }
+            ],
         )
-
-        mock_page_content = Mock()
-        mock_page_content.top_image = "http://www.example.com/image.png"
-        mock_page_content.imgs = {"http://www.example.com/image.png"}
-        mock_page_content.movies = ["http://www.example.com/movie.mp4"]
 
         self.analysis_result = HtmlAnalysisResult(
             url="http://www.example.com/page_1.html",
@@ -143,7 +145,6 @@ class HtmlAnalysisResultTest(TestCase):
             title="this is the title",
             social_network_data=social_netword_data,
             text_data=text_data,
-            page_content=mock_page_content,
         )
 
         created_at = arrow.get("2018-10-06T12:30:00.000000+00:00")
@@ -151,6 +152,7 @@ class HtmlAnalysisResultTest(TestCase):
         self.analysis_result.created_at_timestamp = created_at.timestamp
 
     def test_as_dict(self):
+        self.maxDiff = None
         self.assertDictEqual(
             self.analysis_result.as_dict(),
             {
@@ -175,8 +177,22 @@ class HtmlAnalysisResultTest(TestCase):
                     "text_standard": 10,
                 },
                 "social_network_data": {
-                    "opengraph": {"opengraph_item": "opengraph_item_value"},
-                    "twitter": {"twitter_item": "twitter_item_value"},
+                    "opengraph": [
+                        {
+                            "properties": [
+                                ("og:title", "opengraph title"),
+                                (
+                                    "og:image",
+                                    "http://www.example.com/image.png",
+                                ),
+                                (
+                                    "og:video",
+                                    "http://www.example.com/movie.mp4",
+                                ),
+                            ]
+                        }
+                    ],
+                    "twitter": {"title": "twitter title"},
                 },
                 "statistics": {
                     "average_sentence_word_count": 23.5,
@@ -192,7 +208,6 @@ class HtmlAnalysisResultTest(TestCase):
                 "summary": "hello",
                 "text": "hello world",
                 "title": "this is the title",
-                "top_image": "http://www.example.com/image.png",
             },
         )
 
@@ -200,8 +215,7 @@ class HtmlAnalysisResultTest(TestCase):
         json_data = self.analysis_result.as_json()
 
         self.assertIsInstance(json_data, str)
-        self.assertTrue(json_data.startswith("{"))
-        self.assertTrue(json_data.endswith("}"))
+        json.loads(json_data)
 
 
 if __name__ == "__main__":

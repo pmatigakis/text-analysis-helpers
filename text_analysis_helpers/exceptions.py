@@ -26,15 +26,3 @@ class WebPageDownloadError(TextAnalysisHelpersException):
         self.url = url
         self.status_code = status_code
         self.response = response
-
-
-class HtmlAnalysisError(TextAnalysisHelpersException):
-    """Exchaption raised when an error occurs during html analysis"""
-
-    pass
-
-
-class ContentExtractionFailed(HtmlAnalysisError):
-    """Exception that is raised when no content could be extracted"""
-
-    pass

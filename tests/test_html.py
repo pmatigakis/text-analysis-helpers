@@ -6,7 +6,6 @@ from unittest.mock import patch
 import arrow
 from dateutil.tz import tzutc
 
-from text_analysis_helpers.exceptions import ContentExtractionFailed
 from text_analysis_helpers.html import HtmlAnalyser
 from text_analysis_helpers.models import WebPage
 
@@ -100,8 +99,13 @@ class HtmlAnalyserTests(TestCase):
         )
 
         self.assertNotEqual(result.summary, result.text)
-        self.assertIsNotNone(result.top_image)
-        self.assertEqual(result.images, {"https://example.com/image_1.png"})
+        self.assertEqual(
+            result.images,
+            [
+                "https://example.com/image_2.png",
+                "https://example.com/image_1.png",
+            ],
+        )
         self.assertEqual(result.movies, [])
 
         # TODO: add proper unit tests for the named entities
@@ -136,21 +140,6 @@ class HtmlAnalyserTests(TestCase):
         self.assertEqual(
             result.created_at, datetime(2018, 10, 6, 12, 30, tzinfo=tzutc())
         )
-
-    def test_analyse_page_without_content(self):
-        web_page = WebPage(
-            url="http://www.example.com",
-            html="""<html>
-    <head>
-        <title>This is a page</title>
-    </head>
-    <body>
-    </body>
-</html""",
-        )
-
-        analyser = HtmlAnalyser()
-        self.assertRaises(ContentExtractionFailed, analyser.analyse, web_page)
 
 
 if __name__ == "__main__":
