@@ -11,21 +11,14 @@ python-dateutil = ">=2.7.0"
 
 [[package]]
 name = "article-extraction"
-version = "0.2.0"
+version = "0.3.0"
 description = "Article text extraction library"
 category = "main"
 optional = false
-python-versions = "^3.8"
-develop = false
+python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
 lxml = ">=4.7.1"
-
-[package.source]
-type = "git"
-url = "https://github.com/pmatigakis/article_extraction.git"
-reference = "0.2.0"
-resolved_reference = "d2c6c65c7eb7e879558e44908ce3822053919397"
 
 [[package]]
 name = "bandit"
@@ -79,6 +72,19 @@ jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
+name = "breadability"
+version = "0.1.20"
+description = "Port of Readability HTML parser in Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+chardet = "*"
+docopt = ">=0.6.1,<0.7"
+lxml = ">=2.0"
+
+[[package]]
 name = "certifi"
 version = "2022.12.7"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -93,6 +99,14 @@ description = "Validate configuration and produce human readable error messages.
 category = "dev"
 optional = false
 python-versions = ">=3.6.1"
+
+[[package]]
+name = "chardet"
+version = "5.1.0"
+description = "Universal encoding detector for Python 3"
+category = "main"
+optional = false
+python-versions = ">=3.7"
 
 [[package]]
 name = "charset-normalizer"
@@ -122,18 +136,18 @@ optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 
 [[package]]
-name = "cython"
-version = "0.29.14"
-description = "The Cython compiler for writing C extensions for the Python language."
-category = "main"
-optional = false
-python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
-
-[[package]]
 name = "distlib"
 version = "0.3.6"
 description = "Distribution utilities"
 category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "docopt"
+version = "0.6.2"
+description = "Pythonic argument parser, that will make you smile"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -182,27 +196,6 @@ python-versions = ">=3.6"
 mccabe = ">=0.6.0,<0.7.0"
 pycodestyle = ">=2.8.0,<2.9.0"
 pyflakes = ">=2.4.0,<2.5.0"
-
-[[package]]
-name = "gensim"
-version = "3.8.3"
-description = "Python framework for fast Vector Space Modelling"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-Cython = "0.29.14"
-numpy = ">=1.11.3"
-scipy = ">=0.18.1"
-six = ">=1.5.0"
-smart-open = ">=1.8.1"
-
-[package.extras]
-distributed = ["Pyro4 (>=4.27)"]
-docs = ["pytest", "pytest-rerunfailures", "mock", "cython", "nmslib", "pyemd", "testfixtures", "Morfessor (==2.0.2a4)", "python-Levenshtein (>=0.10.2)", "visdom (>0.1.8.7)", "scikit-learn", "Pyro4 (>=4.27)", "sphinx (<=2.4.4)", "sphinx-gallery", "sphinxcontrib.programoutput", "sphinxcontrib-napoleon", "matplotlib", "plotly", "memory-profiler", "annoy", "pyro4", "nltk", "statsmodels", "pandas"]
-test = ["pytest", "pytest-rerunfailures", "mock", "cython", "nmslib", "pyemd", "testfixtures", "Morfessor (==2.0.2a4)", "python-Levenshtein (>=0.10.2)", "visdom (>0.1.8.7)", "scikit-learn"]
-test-win = ["pytest", "pytest-rerunfailures", "mock", "cython", "nmslib", "pyemd", "testfixtures", "Morfessor (==2.0.2a4)", "python-Levenshtein (>=0.10.2)", "visdom (>0.1.8.7)", "scikit-learn"]
 
 [[package]]
 name = "gitdb"
@@ -449,6 +442,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "pycountry"
+version = "22.3.5"
+description = "ISO country, subdivision, language, currency and script definitions and their translations"
+category = "main"
+optional = false
+python-versions = ">=3.6, <4"
+
+[[package]]
 name = "pyflakes"
 version = "2.4.0"
 description = "passive checker of Python programs"
@@ -569,46 +570,12 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
-name = "scipy"
-version = "1.9.3"
-description = "Fundamental algorithms for scientific computing in Python"
-category = "main"
-optional = false
-python-versions = ">=3.8"
-
-[package.dependencies]
-numpy = ">=1.18.5,<1.26.0"
-
-[package.extras]
-test = ["pytest", "pytest-cov", "pytest-xdist", "asv", "mpmath", "gmpy2", "threadpoolctl", "scikit-umfpack"]
-doc = ["sphinx (!=4.1.0)", "pydata-sphinx-theme (==0.9.0)", "sphinx-panels (>=0.5.2)", "matplotlib (>2)", "numpydoc", "sphinx-tabs"]
-dev = ["mypy", "typing-extensions", "pycodestyle", "flake8"]
-
-[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-
-[[package]]
-name = "smart-open"
-version = "6.3.0"
-description = "Utils for streaming large files (S3, HDFS, GCS, Azure Blob Storage, gzip, bz2...)"
-category = "main"
-optional = false
-python-versions = ">=3.6,<4.0"
-
-[package.extras]
-all = ["boto3", "google-cloud-storage (>=2.6.0)", "azure-storage-blob", "azure-common", "azure-core", "requests", "paramiko"]
-azure = ["azure-storage-blob", "azure-common", "azure-core"]
-gcs = ["google-cloud-storage (>=2.6.0)"]
-http = ["requests"]
-s3 = ["boto3"]
-ssh = ["paramiko"]
-test = ["boto3", "google-cloud-storage (>=2.6.0)", "azure-storage-blob", "azure-common", "azure-core", "requests", "paramiko", "moto", "responses", "pytest", "pytest-rerunfailures"]
-webhdfs = ["requests"]
 
 [[package]]
 name = "smmap"
@@ -636,6 +603,31 @@ python-versions = ">=3.8"
 
 [package.dependencies]
 pbr = ">=2.0.0,<2.1.0 || >2.1.0"
+
+[[package]]
+name = "sumy"
+version = "0.11.0"
+description = "Module for automatic summarization of text documents and HTML pages."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+breadability = ">=0.1.20"
+docopt = ">=0.6.1,<0.7"
+nltk = ">=3.0.2"
+pycountry = ">=18.2.23"
+requests = ">=2.7.0"
+
+[package.extras]
+arabic = ["pyarabic"]
+chinese = ["jieba"]
+greek = ["greek-stemmer-pos"]
+hebrew = ["hebrew-tokenizer"]
+japanese = ["tinysegmenter"]
+korean = ["konlpy"]
+lsa = ["numpy"]
+lexrank = ["numpy"]
 
 [[package]]
 name = "textstat"
@@ -739,7 +731,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "cfa755624fa16e87000278c268464b51c389c6f51541c55ae502c01fa719d269"
+content-hash = "7e87eb135f4c3ab51be876dd231e388ef19d9e727fa1c3bfc384971a59127748"
 
 [metadata.files]
 arrow = []
@@ -747,17 +739,18 @@ article-extraction = []
 bandit = []
 beautifulsoup4 = []
 black = []
+breadability = []
 certifi = []
 cfgv = []
+chardet = []
 charset-normalizer = []
 click = []
 colorama = []
-cython = []
 distlib = []
+docopt = []
 extruct = []
 filelock = []
 flake8 = []
-gensim = []
 gitdb = []
 gitpython = []
 html-text = []
@@ -780,6 +773,7 @@ pbr = []
 platformdirs = []
 pre-commit = []
 pycodestyle = []
+pycountry = []
 pyflakes = []
 pyparsing = []
 pyphen = []
@@ -790,12 +784,11 @@ rdflib = []
 regex = []
 "repoze.lru" = []
 requests = []
-scipy = []
 six = []
-smart-open = []
 smmap = []
 soupsieve = []
 stevedore = []
+sumy = []
 textstat = []
 toml = []
 tomli = []

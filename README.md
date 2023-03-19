@@ -31,7 +31,6 @@ analyser = HtmlAnalyser()
 analysis_result = analyser.analyse_url("http://www.add-a-url-here.com")
 
 analysis_result.save("analysis_result.html")
-
 ```
 
 You can see the scripts in the `examples` folder for some usage examples.
@@ -41,5 +40,5 @@ analyse a url and save the analysis result to a json encoded file execute the
 following command in the terminal.
 
 ```bash
-text-analysis-helpers-cli analyse-url --json --output analysis_result.json https://www.the-url-to-analyse.com
+text-analysis-helpers-cli analyse-url --output analysis_result.json https://www.the-url-to-analyse.com
 ```
