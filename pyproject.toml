@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 79
-target-version = ['py38']
+target-version = ['py310']
 
 [tool.poetry]
 name = "text-analysis-helpers"
@@ -22,9 +22,9 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10"
 extruct = ">=0.13.0,<1.0.0"
-textstat = ">=0.4.1,<0.5.0"
+textstat = ">=0.7.3,<1.0.0"
 nltk = ">=3.3,<4.0"
 numpy = ">=1.15.2,<2.0.0"
 arrow = ">=0.15.5,<1.0.0"
