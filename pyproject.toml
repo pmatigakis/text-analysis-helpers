@@ -4,7 +4,7 @@ target-version = ['py310']
 
 [tool.poetry]
 name = "text-analysis-helpers"
-version = "0.5.0"
+version = "0.6.0"
 description = "Collection of classes and functions for text analysis"
 authors = ["Matigakis Panagiotis <pmatigakis@gmail.com>"]
 license = "MIT"
