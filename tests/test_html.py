@@ -70,15 +70,15 @@ class HtmlAnalyserTests(TestCase):
         self.assertDictEqual(
             result.readability_scores,
             {
-                "automated_readability_index": 8.7,
-                "coleman_liau_index": 12.72,
-                "dale_chall_readability_score": 9.24,
-                "difficult_words": 81,
-                "flesch_kincaid_grade": 6.3,
                 "flesch_reading_ease": 63.66,
-                "gunning_fog": 18.304489795918368,
-                "linsear_write_formula": 2.5,
                 "smog_index": 9.3,
+                "flesch_kincaid_grade": 6.3,
+                "coleman_liau_index": 11.27,
+                "automated_readability_index": 8.6,
+                "dale_chall_readability_score": 10.66,
+                "difficult_words": 64,
+                "linsear_write_formula": 4.076923076923077,
+                "gunning_fog": 6.18,
                 "text_standard": "8th and 9th grade",
             },
         )

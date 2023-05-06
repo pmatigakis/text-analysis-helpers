@@ -36,15 +36,15 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertDictEqual(
             text_analysis_result.readability_scores,
             {
-                "automated_readability_index": 8.7,
-                "coleman_liau_index": 12.6,
-                "dale_chall_readability_score": 10.22,
-                "difficult_words": 31,
-                "flesch_kincaid_grade": 6.4,
                 "flesch_reading_ease": 63.46,
-                "gunning_fog": 20.856202531645568,
-                "linsear_write_formula": 2.65,
                 "smog_index": 9.4,
+                "flesch_kincaid_grade": 6.4,
+                "coleman_liau_index": 10.98,
+                "automated_readability_index": 8.3,
+                "dale_chall_readability_score": 14.62,
+                "difficult_words": 27,
+                "linsear_write_formula": 4.15,
+                "gunning_fog": 8.22,
                 "text_standard": "8th and 9th grade",
             },
         )
