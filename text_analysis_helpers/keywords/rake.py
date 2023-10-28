@@ -1,6 +1,9 @@
 from collections import defaultdict
 from itertools import combinations_with_replacement
-from typing import Callable, Dict, List, Set, Tuple
+from typing import Callable, Dict, List, Optional, Set, Tuple
+
+import nltk
+from nltk.corpus import stopwords
 
 from text_analysis_helpers.keywords.extractors import KeywordExtractor
 
@@ -10,10 +13,10 @@ class Rake(KeywordExtractor):
 
     def __init__(
         self,
-        word_tokenizer: Callable,
-        sentence_tokenizer: Callable,
-        stop_words: List[str],
-        delimiters: List[str],
+        word_tokenizer: Optional[Callable] = None,
+        sentence_tokenizer: Optional[Callable] = None,
+        stop_words: Optional[List[str]] = None,
+        delimiters: Optional[List[str]] = None,
     ):
         """Create a new Rake objects
 
@@ -24,14 +27,24 @@ class Rake(KeywordExtractor):
         :param stop_words: a list of stop words to use
         :param delimiters: the list of word delimiters
         """
-        self._word_tokenizer = word_tokenizer
-        self._sentence_tokenizer = sentence_tokenizer
-        self._delimiters = delimiters
+        self._word_tokenizer = word_tokenizer or nltk.word_tokenize
+        self._sentence_tokenizer = sentence_tokenizer or nltk.sent_tokenize
+        self._delimiters = delimiters or [
+            ",",
+            "’",
+            "‘",
+            "“",
+            "”",
+            "“",
+            "?",
+            "—",
+            ".",
+        ]
 
         self._stop_words = set()
-        for stop_word in stop_words:
+        for stop_word in stop_words or stopwords.words("english"):
             self._stop_words.add(stop_word)
-            split_stop_word = word_tokenizer(stop_word)
+            split_stop_word = self._word_tokenizer(stop_word)
             self._stop_words.update(split_stop_word)
 
     def _extract_candidate_keywords(

@@ -3,7 +3,6 @@ from typing import Dict, Optional
 
 import numpy as np
 from nltk import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
 from textstat.textstat import textstat
 
 from text_analysis_helpers.keywords.extractors import KeywordExtractor
@@ -30,12 +29,7 @@ class TextAnalyser(object):
 
         :param keyword_extractor: the keyword extractor to use
         """
-        self.keyword_extractor = keyword_extractor or Rake(
-            word_tokenizer=word_tokenize,
-            sentence_tokenizer=sent_tokenize,
-            stop_words=stopwords.words("english"),
-            delimiters=[",", "’", "‘", "“", "”", "“", "?", "—", "."],
-        )
+        self.keyword_extractor = keyword_extractor or Rake()
         self.summarizer = summarizer or SumySummarizer()
         self.named_entity_extractor = (
             named_entity_extractor or NltkNamedEntityExtractor()
