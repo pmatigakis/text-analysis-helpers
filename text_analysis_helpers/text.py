@@ -1,6 +1,6 @@
 import itertools
 from collections import defaultdict
-from typing import Optional
+from typing import Dict, Optional
 
 import numpy as np
 from nltk import sent_tokenize, word_tokenize
@@ -8,11 +8,11 @@ from nltk.corpus import stopwords
 from nltk.data import load as nltk_data_load
 from nltk.tag.perceptron import PerceptronTagger
 from nltk.tree import Tree
+from textstat.textstat import textstat
 
 from text_analysis_helpers.keywords.extractors import KeywordExtractor
 from text_analysis_helpers.keywords.rake import Rake
 from text_analysis_helpers.models import TextAnalysisResult, TextStatistics
-from text_analysis_helpers.processors.text import calculate_readability_scores
 from text_analysis_helpers.summaries.summarizers import Summarizer
 from text_analysis_helpers.summaries.sumy import SumySummarizer
 
@@ -54,6 +54,25 @@ class TextAnalyser(object):
         """
         with open(filename, "r") as f:
             return self.analyse(f.read())
+
+    def _calculate_readability_scores(self, text: str) -> Dict:
+        score_functions = [
+            "flesch_reading_ease",
+            "smog_index",
+            "flesch_kincaid_grade",
+            "coleman_liau_index",
+            "automated_readability_index",
+            "dale_chall_readability_score",
+            "difficult_words",
+            "linsear_write_formula",
+            "gunning_fog",
+            "text_standard",
+        ]
+
+        return {
+            score_function: getattr(textstat, score_function)(text)
+            for score_function in score_functions
+        }
 
     def _calculate_text_statistics(self, sentences, sentence_words):
         """Calculate the text statistics
@@ -125,7 +144,7 @@ class TextAnalyser(object):
         :rtype: TextAnalysisResult
         :return: the analysis result
         """
-        readability_scores = calculate_readability_scores(text)
+        readability_scores = self._calculate_readability_scores(text)
 
         keywords = None
         if isinstance(text, str) and len(text) != 0:
