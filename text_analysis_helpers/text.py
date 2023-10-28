@@ -1,17 +1,20 @@
 import itertools
 from collections import defaultdict
+from typing import Optional
 
 import numpy as np
 from nltk import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
 from nltk.data import load as nltk_data_load
 from nltk.tag.perceptron import PerceptronTagger
 from nltk.tree import Tree
 
+from text_analysis_helpers.keywords.extractors import KeywordExtractor
+from text_analysis_helpers.keywords.rake import Rake
 from text_analysis_helpers.models import TextAnalysisResult, TextStatistics
 from text_analysis_helpers.processors.text import (
     calculate_readability_scores,
     create_summary,
-    extract_keywords,
 )
 
 
@@ -22,7 +25,18 @@ class TextAnalyser(object):
         "chunkers/maxent_ne_chunker/english_ace_multiclass.pickle"
     )
 
-    def __init__(self):
+    def __init__(self, keyword_extractor: Optional[KeywordExtractor] = None):
+        """Create a new TextAnalyser object
+
+        :param keyword_extractor: the keyword extractor to use
+        """
+        self.keyword_extractor = keyword_extractor or Rake(
+            word_tokenizer=word_tokenize,
+            sentence_tokenizer=sent_tokenize,
+            stop_words=stopwords.words("english"),
+            delimiters=[",", "’", "‘", "“", "”", "“", "?", "—", "."],
+        )
+
         self.__pos_tagger = PerceptronTagger()
         self.__ne_chunker = nltk_data_load(self.MULTICLASS_NE_CHUNKER)
 
@@ -110,9 +124,7 @@ class TextAnalyser(object):
 
         keywords = None
         if isinstance(text, str) and len(text) != 0:
-            keywords = extract_keywords(
-                text=text,
-            )
+            keywords = self.keyword_extractor.extract_keywords(text)
 
         sentences = sent_tokenize(text)
         sentence_words = [word_tokenize(sentence) for sentence in sentences]

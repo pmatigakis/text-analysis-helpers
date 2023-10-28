@@ -1,26 +1,9 @@
-from typing import Dict
-
-from nltk import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
 from sumy.nlp.stemmers import Stemmer
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.summarizers.lsa import LsaSummarizer as Summarizer
 from sumy.utils import get_stop_words
 from textstat.textstat import textstat
-
-from text_analysis_helpers.keywords.rake import Rake
-
-
-def extract_keywords(text) -> Dict[str, float]:
-    rake = Rake(
-        word_tokenizer=word_tokenize,
-        sentence_tokenizer=sent_tokenize,
-        stop_words=stopwords.words("english"),
-        delimiters=[",", "’", "‘", "“", "”", "“", "?", "—", "."],
-    )
-
-    return rake.extract_keywords(text)
 
 
 def calculate_readability_scores(text):

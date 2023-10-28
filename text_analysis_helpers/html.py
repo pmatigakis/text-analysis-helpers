@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 import extruct
 from bs4 import BeautifulSoup
@@ -18,8 +19,12 @@ logger = logging.getLogger(__name__)
 class HtmlAnalyser(object):
     """Html content analyser"""
 
-    def __init__(self):
-        self.__text_analyser = TextAnalyser()
+    def __init__(self, text_analyser: Optional[TextAnalyser] = None):
+        """Create a new HtmlAnalyser
+
+        :param text_analyser: the text analysed to use
+        """
+        self.__text_analyser = text_analyser or TextAnalyser()
 
     def analyse_url(self, url, timeout=5, headers=None, verify=True):
         """Download and analyse the contents of the given url
