@@ -12,10 +12,9 @@ from nltk.tree import Tree
 from text_analysis_helpers.keywords.extractors import KeywordExtractor
 from text_analysis_helpers.keywords.rake import Rake
 from text_analysis_helpers.models import TextAnalysisResult, TextStatistics
-from text_analysis_helpers.processors.text import (
-    calculate_readability_scores,
-    create_summary,
-)
+from text_analysis_helpers.processors.text import calculate_readability_scores
+from text_analysis_helpers.summaries.summarizers import Summarizer
+from text_analysis_helpers.summaries.sumy import SumySummarizer
 
 
 class TextAnalyser(object):
@@ -25,7 +24,11 @@ class TextAnalyser(object):
         "chunkers/maxent_ne_chunker/english_ace_multiclass.pickle"
     )
 
-    def __init__(self, keyword_extractor: Optional[KeywordExtractor] = None):
+    def __init__(
+        self,
+        keyword_extractor: Optional[KeywordExtractor] = None,
+        summarizer: Optional[Summarizer] = None,
+    ):
         """Create a new TextAnalyser object
 
         :param keyword_extractor: the keyword extractor to use
@@ -36,6 +39,8 @@ class TextAnalyser(object):
             stop_words=stopwords.words("english"),
             delimiters=[",", "’", "‘", "“", "”", "“", "?", "—", "."],
         )
+
+        self.summarizer = summarizer or SumySummarizer()
 
         self.__pos_tagger = PerceptronTagger()
         self.__ne_chunker = nltk_data_load(self.MULTICLASS_NE_CHUNKER)
@@ -130,7 +135,7 @@ class TextAnalyser(object):
         sentence_words = [word_tokenize(sentence) for sentence in sentences]
 
         statistics = self._calculate_text_statistics(sentences, sentence_words)
-        summary = create_summary(text)
+        summary = self.summarizer.summarize(text)
         named_entities = self._extract_named_entities(sentence_words)
 
         return TextAnalysisResult(
