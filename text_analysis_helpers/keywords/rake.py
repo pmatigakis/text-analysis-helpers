@@ -2,8 +2,10 @@ from collections import defaultdict
 from itertools import combinations_with_replacement
 from typing import Callable, Dict, List, Set, Tuple
 
+from text_analysis_helpers.keywords.extractors import KeywordExtractor
 
-class Rake:
+
+class Rake(KeywordExtractor):
     """RAKE keyword extractor"""
 
     def __init__(
