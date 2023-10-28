@@ -1,21 +1,26 @@
 from collections import defaultdict
 from itertools import combinations_with_replacement
+from typing import Callable, Dict, List, Set, Tuple
 
 
 class Rake:
     """RAKE keyword extractor"""
 
     def __init__(
-        self, word_tokenizer, sentence_tokenizer, stop_words, delimiters
+        self,
+        word_tokenizer: Callable,
+        sentence_tokenizer: Callable,
+        stop_words: List[str],
+        delimiters: List[str],
     ):
         """Create a new Rake objects
 
-        :param func word_tokenizer: a callable that splits a sentence into a
+        :param word_tokenizer: a callable that splits a sentence into a
             list of words
-        :param func sentence_tokenizer: a callable tat splits the text into
+        :param sentence_tokenizer: a callable tat splits the text into
             sentences
-        :param list[str] stop_words: a list of stop words to use
-        :param list[str] delimiters: the list of word delimiters
+        :param stop_words: a list of stop words to use
+        :param delimiters: the list of word delimiters
         """
         self._word_tokenizer = word_tokenizer
         self._sentence_tokenizer = sentence_tokenizer
@@ -24,14 +29,15 @@ class Rake:
         self._stop_words = set()
         for stop_word in stop_words:
             self._stop_words.add(stop_word)
-            splited_stop_word = word_tokenizer(stop_word)
-            self._stop_words.update(splited_stop_word)
+            split_stop_word = word_tokenizer(stop_word)
+            self._stop_words.update(split_stop_word)
 
-    def _extract_candidate_keywords(self, tokenized_document):
+    def _extract_candidate_keywords(
+        self, tokenized_document: List[List[str]]
+    ) -> List[List[str]]:
         """Extract the candidate keywords from the text
 
-        :param list[list[str]] tokenized_document: the tokenized document
-        :rtype: list[list[str]]
+        :param tokenized_document: the tokenized document
         :return: the candidate keywords
         """
         candidate_keywords = []
@@ -54,29 +60,26 @@ class Rake:
 
         return candidate_keywords
 
-    def _is_stop_word(self, word):
+    def _is_stop_word(self, word: str) -> bool:
         """Check if this word is a stop word
 
-        :param str word: the word to check
-        :rtype: bool
+        :param word: the word to check
         :return True if this is a stop word
         """
         return word.lower() in self._stop_words
 
-    def _is_delimiter(self, word):
+    def _is_delimiter(self, word: str) -> bool:
         """Check if this word is a delimiter
 
-        :param str word: the word to check
-        :rtype: bool
+        :param word: the word to check
         :return True if this word is a delimiter
         """
         return self._is_stop_word(word) or word in self._delimiters
 
-    def _tokenize_document(self, document):
+    def _tokenize_document(self, document: str) -> List[List[str]]:
         """Tokenize the given document in a list of tokenized sentences
 
-        :param str document:
-        :rtype: list[list[str]]
+        :param document: the document to tokenize
         :return: return the tokenized document
         """
         tokenized_document = []
@@ -87,11 +90,12 @@ class Rake:
 
         return tokenized_document
 
-    def _calculate_word_co_occurrences(self, candidate_keywords):
+    def _calculate_word_co_occurrences(
+        self, candidate_keywords: List[List[str]]
+    ) -> Dict[str, Dict[str, int]]:
         """Calculate the word cooccurrences for the candidate keywords
 
-        :param list[list[str]] candidate_keywords: the keywords candidates
-        :rtype: dict[str, dict[str, int]]
+        :param candidate_keywords: the keywords candidates
         :return: return the word cooccurrence matrix
         """
         word_co_occurrences = defaultdict(lambda: defaultdict(int))
@@ -105,12 +109,12 @@ class Rake:
 
         return word_co_occurrences
 
-    def _calculate_word_scores(self, word_co_occurrences):
+    def _calculate_word_scores(
+        self, word_co_occurrences: Dict[str, Dict[str, int]]
+    ) -> Dict[str, float]:
         """Calculate the word score
 
-        :param dict[str, dict[str, int]] word_co_occurrences: the word
-            cooccurrences matrix
-        :rtype: dict[str, float]
+        :param word_co_occurrences: the word cooccurrences matrix
         :return: return a dictionary with the word scores
         """
         word_scores = {}
@@ -122,14 +126,14 @@ class Rake:
         return word_scores
 
     def _calculate_candidate_keyword_scores(
-        self, candidate_keywords, word_scores
-    ):
+        self,
+        candidate_keywords: List[List[str]],
+        word_scores: Dict[str, float],
+    ) -> Dict[Tuple, float]:
         """Calculate the candidate keyword scores
 
-        :param list[list[str]] candidate_keywords: the list of candidate
-            keywords
-        :param dict[str, float] word_scores: the word scores
-        :rtype: dict[tuple, float]
+        :param candidate_keywords: the list of candidate keywords
+        :param word_scores: the word scores
         :return: return the candidate keyword scores
         """
         candidate_scores = defaultdict(float)
@@ -139,15 +143,16 @@ class Rake:
 
         return candidate_scores
 
-    def _find_candidate_keyword_aliases(self, candidate_keywords):
+    def _find_candidate_keyword_aliases(
+        self, candidate_keywords: List[List[str]]
+    ) -> Dict[Tuple, Set[Tuple]]:
         """Find the keyword aliases
 
         A keyword alias is basically just another form of the keyword that
         contains characters that might differ because they are lowercase or
         uppercase.
 
-        :param list[list[str]] candidate_keywords: the keywords
-        :rtype: dict[tuple, list[tuple]]
+        :param candidate_keywords: the keywords
         :return: a dictionary with the aliases mapping
         """
         candidate_keyword_aliases = defaultdict(set)
@@ -160,14 +165,14 @@ class Rake:
         return candidate_keyword_aliases
 
     def _calculate_candidate_keyword_aliases_scores(
-        self, candidate_keyword_aliases, candidate_scores
-    ):
+        self,
+        candidate_keyword_aliases: Dict[Tuple, Set[Tuple]],
+        candidate_scores: Dict[Tuple, float],
+    ) -> Dict[Tuple, float]:
         """Calculate the scores of the keyword aliases
 
-        :param dict[tuple, list[tuple]] candidate_keyword_aliases: the keyword
-            aliases
-        :param dict[tuple float] candidate_scores: the keyword scores
-        :rtype: dict[tuple, float]
+        :param candidate_keyword_aliases: the keyword aliases
+        :param candidate_scores: the keyword scores
         :return: return the calculated keyword alias scores
         """
         normalized_candidates_scores = defaultdict(float)
@@ -184,13 +189,11 @@ class Rake:
 
         return normalized_candidates_scores
 
-    def extract_keywords(self, document):
+    def extract_keywords(self, document: str) -> Dict[str, float]:
         """Extract the keywords from the given document text
 
         :param document: the document text
-        :rtype: list[str]
-        :return: a dictionary with the keywords. The key is the keyword and the
-            value is the keyword score
+        :return: a list with the keywords.
         """
         tokenized_document = self._tokenize_document(document)
         candidate_keywords = self._extract_candidate_keywords(
@@ -211,6 +214,6 @@ class Rake:
         )
 
         return {
-            " ".join(candicate_keyword): score
-            for candicate_keyword, score in candidate_scores.items()
+            " ".join(candidate_keyword): score
+            for candidate_keyword, score in candidate_scores.items()
         }

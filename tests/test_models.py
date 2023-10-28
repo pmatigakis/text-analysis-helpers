@@ -27,7 +27,7 @@ class TextAnalysisResultTest(TestCase):
 
         self.analysis_result = TextAnalysisResult(
             text="hello world",
-            keywords={"keyword_1": 1},
+            keywords={"keyword_1": 1.0},
             readability_scores={
                 "flesch_reading_ease": 1,
                 "smog_index": 2,
@@ -53,7 +53,7 @@ class TextAnalysisResultTest(TestCase):
         self.assertDictEqual(
             self.analysis_result.as_dict(),
             {
-                "keywords": {"keyword_1": 1},
+                "keywords": {"keyword_1": 1.0},
                 "named_entities": {"PERSON": ["john"]},
                 "readability_scores": {
                     "automated_readability_index": 5,
@@ -108,7 +108,7 @@ class HtmlAnalysisResultTest(TestCase):
 
         text_data = TextAnalysisResult(
             text="hello world",
-            keywords={"keyword_1": 1},
+            keywords={"keyword_1": 1.0},
             readability_scores={
                 "flesch_reading_ease": 1,
                 "smog_index": 2,

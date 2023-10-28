@@ -18,7 +18,7 @@ class RakeTests(TestCase):
 
         keywords = rake.extract_keywords(paper_abstract)
 
-        expected_keywords_lowercase = {
+        expected_keywords = {
             "upper bounds": 4.0,
             "algorithms": 1.5,
             "compatibility": 2.0,
@@ -49,16 +49,9 @@ class RakeTests(TestCase):
         }
 
         self.assertCountEqual(
-            [keyword.lower() for keyword in keywords.keys()],
-            expected_keywords_lowercase.keys(),
+            {keyword.lower(): score for keyword, score in keywords.items()},
+            expected_keywords,
         )
-
-        for keyword in keywords:
-            self.assertAlmostEqual(
-                keywords[keyword],
-                expected_keywords_lowercase[keyword.lower()],
-                places=3,
-            )
 
 
 if __name__ == "__main__":

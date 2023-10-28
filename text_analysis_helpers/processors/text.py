@@ -1,3 +1,5 @@
+from typing import Dict
+
 from nltk import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from sumy.nlp.stemmers import Stemmer
@@ -10,7 +12,7 @@ from textstat.textstat import textstat
 from text_analysis_helpers.keywords.rake import Rake
 
 
-def extract_keywords(text):
+def extract_keywords(text) -> Dict[str, float]:
     rake = Rake(
         word_tokenizer=word_tokenize,
         sentence_tokenizer=sent_tokenize,

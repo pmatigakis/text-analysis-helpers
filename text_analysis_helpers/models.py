@@ -1,6 +1,7 @@
 import json
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
+from typing import Dict
 
 from text_analysis_helpers.helpers import current_date
 
@@ -68,7 +69,7 @@ class TextAnalysisResult(BaseAnalysisResult):
     def __init__(
         self,
         text,
-        keywords,
+        keywords: Dict[str, float],
         readability_scores,
         statistics,
         summary,
@@ -77,7 +78,7 @@ class TextAnalysisResult(BaseAnalysisResult):
         """Create a new TextAnalysisResult object
 
         :param str text: the text that was analysed
-        :param dict[str, int] keywords: the extracted keywords and their scores
+        :param keywords: the extracted keywords
         :param dict[str, T] readability_scores: the readability scores
         :param TextStatistics statistics: the text statistics
         :param str summary: the text summary
@@ -117,7 +118,14 @@ class TextAnalysisResult(BaseAnalysisResult):
 class HtmlAnalysisResult(TextAnalysisResult):
     """Html analysis result"""
 
-    def __init__(self, url, html, title, social_network_data, text_data):
+    def __init__(
+        self,
+        url,
+        html,
+        title,
+        social_network_data,
+        text_data: TextAnalysisResult,
+    ):
         """Create a new HtmlAnalysisResult object
 
         :param str url: the web page url
@@ -125,8 +133,8 @@ class HtmlAnalysisResult(TextAnalysisResult):
         :param str title: the web page title
         :param SocialNetworkData social_network_data: the extracted social
             network data
-        :param TextAnalysisResult text_data: the text analysis result for the
-            text that was extracted from the web page
+        :param text_data: the text analysis result for the text that was
+            extracted from the web page
         """
         super(HtmlAnalysisResult, self).__init__(
             text=text_data.text,

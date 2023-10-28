@@ -31,7 +31,10 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
         self.assertEqual(text_analysis_result.text, text)
         self.assertEqual(len(text_analysis_result.keywords), 19)
         self.assertEqual(
-            text_analysis_result.keywords["Curabitur justo ante"], 9.0
+            text_analysis_result.keywords[
+                "Morbi ac odio tempus elit " "imperdiet commodo eu eget libero"
+            ],
+            83.5,
         )
         self.assertDictEqual(
             text_analysis_result.readability_scores,
