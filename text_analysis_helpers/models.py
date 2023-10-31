@@ -1,7 +1,7 @@
 import json
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
-from typing import Dict
+from typing import Dict, Set
 
 from text_analysis_helpers.helpers import current_date
 
@@ -34,19 +34,18 @@ class BaseAnalysisResult(metaclass=ABCMeta):
         self.created_at = creation_date.datetime
         self.created_at_timestamp = creation_date.timestamp
 
-    def save(self, output_file):
+    def save(self, output_file: str):
         """Encode to json and save to a file
 
-        :param str output_file: the output file
+        :param output_file: the output file
         """
         with open(output_file, "w") as f:
             f.write(self.as_json())
 
     @abstractmethod
-    def as_dict(self):
+    def as_dict(self) -> dict:
         """Convert the analysis result object into a dictionary
 
-        :rtype: dict
         :return: the result object data as a dictionary
         """
         return {
@@ -54,10 +53,9 @@ class BaseAnalysisResult(metaclass=ABCMeta):
             "created_at_timestamp": self.created_at_timestamp,
         }
 
-    def as_json(self):
+    def as_json(self) -> str:
         """Convert the analysis result object into a json string
 
-        :rtype: str
         :return: the data encoded in json
         """
         return json.dumps(self.as_dict())
@@ -68,21 +66,21 @@ class TextAnalysisResult(BaseAnalysisResult):
 
     def __init__(
         self,
-        text,
+        text: str,
         keywords: Dict[str, float],
-        readability_scores,
-        statistics,
-        summary,
-        named_entities,
+        readability_scores: dict,
+        statistics: TextStatistics,
+        summary: str,
+        named_entities: Dict[str, Set[str]],
     ):
         """Create a new TextAnalysisResult object
 
-        :param str text: the text that was analysed
+        :param text: the text that was analysed
         :param keywords: the extracted keywords
-        :param dict[str, T] readability_scores: the readability scores
-        :param TextStatistics statistics: the text statistics
-        :param str summary: the text summary
-        :param dict[str, set[str]] named_entities: the extracted named entities
+        :param readability_scores: the readability scores
+        :param statistics: the text statistics
+        :param summary: the text summary
+        :param named_entities: the extracted named entities
         """
         super(TextAnalysisResult, self).__init__()
 
@@ -120,19 +118,18 @@ class HtmlAnalysisResult(TextAnalysisResult):
 
     def __init__(
         self,
-        url,
-        html,
-        title,
-        social_network_data,
+        url: str,
+        html: str,
+        title: str,
+        social_network_data: SocialNetworkData,
         text_data: TextAnalysisResult,
     ):
         """Create a new HtmlAnalysisResult object
 
-        :param str url: the web page url
-        :param str html: the web page content
-        :param str title: the web page title
-        :param SocialNetworkData social_network_data: the extracted social
-            network data
+        :param url: the web page url
+        :param html: the web page content
+        :param title: the web page title
+        :param social_network_data: the extracted social network data
         :param text_data: the text analysis result for the text that was
             extracted from the web page
         """
@@ -153,7 +150,7 @@ class HtmlAnalysisResult(TextAnalysisResult):
         self._extract_images(social_network_data)
         self._extract_videos(social_network_data)
 
-    def _extract_images(self, social_network_data):
+    def _extract_images(self, social_network_data: SocialNetworkData):
         self.images = []
         twitter_data = social_network_data.twitter or {}
 
@@ -169,7 +166,7 @@ class HtmlAnalysisResult(TextAnalysisResult):
                 if property_name == "og:image" and value not in self.images:
                     self.images.append(value)
 
-    def _extract_videos(self, social_network_data):
+    def _extract_videos(self, social_network_data: SocialNetworkData):
         self.movies = []
 
         for opengraph_item in social_network_data.opengraph or []:
