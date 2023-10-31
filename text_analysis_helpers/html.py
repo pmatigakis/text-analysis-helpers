@@ -8,10 +8,6 @@ from bs4 import BeautifulSoup
 
 from text_analysis_helpers.downloaders import download_web_page
 from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
-from text_analysis_helpers.processors.html import (
-    extract_page_data,
-    extract_twitter_card,
-)
 from text_analysis_helpers.text import TextAnalyser
 
 logger = logging.getLogger(__name__)
@@ -33,6 +29,32 @@ class HtmlAnalyser(object):
         """
         self.__text_analyser = text_analyser or TextAnalyser()
         self._article_extractor = article_extractor or MSSArticleExtractor()
+
+    def _extract_page_data(self, soup):
+        title = soup.find("title")
+
+        return {"title": title.text if title else None}
+
+    def _extract_twitter_card(self, soup):
+        card = {}
+
+        for meta in soup.find_all("meta"):
+            name = meta.get("name", "")
+            if name.startswith("twitter:"):
+                items = name.split(":")
+                if len(items) < 2:
+                    msg = "Invalid twitter card value: twitter_card(%s)"
+                    logger.warning(msg, name)
+                    continue
+                card[":".join(items[1:])] = meta.get("content")
+
+        # if twitter card data could not be extracted then return None instead
+        # of an empty dictionary
+        if len(card) == 0:
+            logger.warning("failed to extract twitter card")
+            card = None
+
+        return card
 
     def analyse_url(self, url, timeout=5, headers=None, verify=True):
         """Download and analyse the contents of the given url
@@ -61,9 +83,9 @@ class HtmlAnalyser(object):
         page_content = self._article_extractor.extract_article(web_page.html)
         text_analysis_result = self.__text_analyser.analyse(page_content)
         soup = BeautifulSoup(web_page.html, "html.parser")
-        page_data = extract_page_data(soup)
+        page_data = self._extract_page_data(soup)
         extracted_data = extruct.extract(web_page.html, base_url=web_page.url)
-        twitter_card = extract_twitter_card(soup)
+        twitter_card = self._extract_twitter_card(soup)
 
         return HtmlAnalysisResult(
             url=web_page.url,
