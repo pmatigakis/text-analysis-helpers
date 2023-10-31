@@ -7,7 +7,11 @@ from articles.mss.extractors import MSSArticleExtractor
 from bs4 import BeautifulSoup
 
 from text_analysis_helpers.downloaders import download_web_page
-from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
+from text_analysis_helpers.models import (
+    HtmlAnalysisResult,
+    SocialNetworkData,
+    WebPage,
+)
 from text_analysis_helpers.text import TextAnalyser
 
 logger = logging.getLogger(__name__)
@@ -30,12 +34,12 @@ class HtmlAnalyser(object):
         self._text_analyser = text_analyser or TextAnalyser()
         self._article_extractor = article_extractor or MSSArticleExtractor()
 
-    def _extract_page_data(self, soup):
+    def _extract_page_data(self, soup: BeautifulSoup) -> dict:
         title = soup.find("title")
 
         return {"title": title.text if title else None}
 
-    def _extract_twitter_card(self, soup):
+    def _extract_twitter_card(self, soup: BeautifulSoup) -> dict:
         card = {}
 
         for meta in soup.find_all("meta"):
@@ -56,14 +60,19 @@ class HtmlAnalyser(object):
 
         return card
 
-    def analyse_url(self, url, timeout=5, headers=None, verify=True):
+    def analyse_url(
+        self,
+        url: str,
+        timeout: int = 5,
+        headers: Optional[dict] = None,
+        verify: Optional[bool] = True,
+    ) -> HtmlAnalysisResult:
         """Download and analyse the contents of the given url
 
-        :param str url: the url to analyse
-        :param int timeout: the request timeout
-        :param dict|None headers: the headers to add to the request
-        :param boolean verify: verify ssl
-        :rtype: HtmlAnalysisResult
+        :param url: the url to analyse
+        :param timeout: the request timeout
+        :param headers: the headers to add to the request
+        :param verify: verify ssl
         :return: the analysis result
         """
         web_page = download_web_page(
@@ -72,12 +81,10 @@ class HtmlAnalyser(object):
 
         return self.analyse(web_page)
 
-    def analyse(self, web_page):
+    def analyse(self, web_page: WebPage) -> HtmlAnalysisResult:
         """Analyse the web page contents
 
-        :param text_analysis_helpers.models.WebPage web_page: the wb page
-            contents
-        :rtype: HtmlAnalysisResult
+        :param web_page: the web page contents
         :return: the analysis result
         """
         page_content = self._article_extractor.extract_article(web_page.html)

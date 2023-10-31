@@ -1,5 +1,5 @@
 import itertools
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 import numpy as np
 from nltk import sent_tokenize, word_tokenize
@@ -28,22 +28,15 @@ class TextAnalyser(object):
         """Create a new TextAnalyser object
 
         :param keyword_extractor: the keyword extractor to use
+        :param summarizer: The summarizer that will create the document summary
+        :param named_entity_extractor: The object that will extract the named
+            entities
         """
         self.keyword_extractor = keyword_extractor or Rake()
         self.summarizer = summarizer or SumySummarizer()
         self.named_entity_extractor = (
             named_entity_extractor or NltkNamedEntityExtractor()
         )
-
-    def analyse_file(self, filename):
-        """Analyse the contents of a file
-
-        :param str filename: the path to a file
-        :rtype: TextAnalysisResult
-        :return: the analysis result
-        """
-        with open(filename, "r") as f:
-            return self.analyse(f.read())
 
     def _calculate_readability_scores(self, text: str) -> Dict:
         score_functions = [
@@ -64,13 +57,14 @@ class TextAnalyser(object):
             for score_function in score_functions
         }
 
-    def _calculate_text_statistics(self, sentences, sentence_words):
+    def _calculate_text_statistics(
+        self, sentences: List[str], sentence_words: List[List[str]]
+    ) -> TextStatistics:
         """Calculate the text statistics
 
-        :param list[str] sentences: a list with the text sentences
-        :param list[list[str]] sentence_words: a list with the sentences that
-            have been tokenized into separate words
-        :rtype: TextStatistics
+        :param sentences: a list with the text sentences
+        :param sentence_words: a list with the sentences that have been
+            tokenized into separate words
         :return: the calculated text statistics
         """
         words = list(itertools.chain(*sentence_words))
@@ -93,11 +87,10 @@ class TextAnalyser(object):
             sentence_word_count_variance=float(sentence_word_counts.var()),
         )
 
-    def analyse(self, text):
+    def analyse(self, text: str) -> TextAnalysisResult:
         """Analyse the given text
 
-        :param str text: the text to analyse
-        :rtype: TextAnalysisResult
+        :param text: the text to analyse
         :return: the analysis result
         """
         readability_scores = self._calculate_readability_scores(text)
@@ -123,3 +116,12 @@ class TextAnalyser(object):
             summary=summary,
             named_entities=named_entities,
         )
+
+    def analyse_file(self, filename: str) -> TextAnalysisResult:
+        """Analyse the contents of a file
+
+        :param filename: the path to a file
+        :return: the analysis result
+        """
+        with open(filename, "r") as f:
+            return self.analyse(f.read())
