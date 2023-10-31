@@ -53,6 +53,18 @@ class RakeTests(TestCase):
             expected_keywords,
         )
 
+    def test_extract_keywords_with_empty_document(self):
+        rake = Rake(
+            word_tokenizer=word_tokenize,
+            sentence_tokenizer=sent_tokenize,
+            stop_words=stopwords.words("english"),
+            delimiters=[",", "’", "‘", "“", "”", "“", "?", "—", "."],
+        )
+
+        keywords = rake.extract_keywords("")
+
+        self.assertDictEqual(keywords, {})
+
 
 if __name__ == "__main__":
     main()
