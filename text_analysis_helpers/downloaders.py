@@ -4,14 +4,12 @@ from text_analysis_helpers.exceptions import WebPageDownloadError
 from text_analysis_helpers.models import WebPage
 
 
-def download_web_page(url, timeout=5, **kwargs):
+def download_web_page(url: str, timeout: int = 5, **kwargs) -> WebPage:
     """Download a web page
 
-    :param str url: the url of the web page
-    :param int timeout: the request timeout
-    :param kwargs: additional arguments to pass to the `requests.get`
-        method
-    :rtype: WebPage
+    :param url: the url of the web page
+    :param timeout: the request timeout
+    :param kwargs: additional arguments to pass to the `requests.get` method
     :return: the web page contents
     """
     _kwargs = {"timeout": timeout}

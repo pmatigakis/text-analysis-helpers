@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class TextAnalysisHelpersException(Exception):
     """Base text analysis helpers exception"""
 
@@ -9,14 +12,18 @@ class WebPageDownloadError(TextAnalysisHelpersException):
     contents of a web page"""
 
     def __init__(
-        self, message=None, url=None, status_code=None, response=None
+        self,
+        message: Optional[str] = None,
+        url: Optional[str] = None,
+        status_code: Optional[int] = None,
+        response: Optional[str] = None,
     ):
         """Create a new WebPageDownloadError object
 
-        :param str|None message: the description of the error
-        :param str|None url: the url that caused the error to occur
-        :param int|None status_code: the response status code
-        :param str|None response: the response text
+        :param message: the description of the error
+        :param url: the url that caused the error to occur
+        :param status_code: the response status code
+        :param response: the response text
         """
         super(WebPageDownloadError, self).__init__(
             message, url, status_code, response
