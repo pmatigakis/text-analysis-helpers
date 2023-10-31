@@ -28,3 +28,9 @@ class SumySummarizerTests(TestCase):
             "which has since been accepted, that the high surface "
             "temperatures of Venus are the result of the greenhouse effect.",
         )
+
+    def test_summarize_with_empty_document(self):
+        summarizer = SumySummarizer(sentence_count=2)
+        summary = summarizer.summarize("")
+
+        self.assertEqual(summary, "")
