@@ -2,12 +2,13 @@ import logging
 from typing import Optional
 
 import extruct
+from articles.extractors import ArticleExtractor
+from articles.mss.extractors import MSSArticleExtractor
 from bs4 import BeautifulSoup
 
 from text_analysis_helpers.downloaders import download_web_page
 from text_analysis_helpers.models import HtmlAnalysisResult, SocialNetworkData
 from text_analysis_helpers.processors.html import (
-    extract_page_content,
     extract_page_data,
     extract_twitter_card,
 )
@@ -19,12 +20,19 @@ logger = logging.getLogger(__name__)
 class HtmlAnalyser(object):
     """Html content analyser"""
 
-    def __init__(self, text_analyser: Optional[TextAnalyser] = None):
+    def __init__(
+        self,
+        text_analyser: Optional[TextAnalyser] = None,
+        article_extractor: Optional[ArticleExtractor] = None,
+    ):
         """Create a new HtmlAnalyser
 
         :param text_analyser: the text analysed to use
+        :param article_extractor: the article extractor object that will
+            extract the article from the html page
         """
         self.__text_analyser = text_analyser or TextAnalyser()
+        self._article_extractor = article_extractor or MSSArticleExtractor()
 
     def analyse_url(self, url, timeout=5, headers=None, verify=True):
         """Download and analyse the contents of the given url
@@ -50,7 +58,7 @@ class HtmlAnalyser(object):
         :rtype: HtmlAnalysisResult
         :return: the analysis result
         """
-        page_content = extract_page_content(web_page.html)
+        page_content = self._article_extractor.extract_article(web_page.html)
         text_analysis_result = self.__text_analyser.analyse(page_content)
         soup = BeautifulSoup(web_page.html, "html.parser")
         page_data = extract_page_data(soup)

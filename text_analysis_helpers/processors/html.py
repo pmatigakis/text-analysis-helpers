@@ -1,14 +1,6 @@
 from logging import getLogger
 
-from articles.mss.extractors import MSSArticleExtractor
-
 logger = getLogger(__name__)
-
-
-def extract_page_content(html_content):
-    article_extractor = MSSArticleExtractor()
-
-    return article_extractor.extract_article(html_content)
 
 
 def extract_page_data(soup):
