@@ -27,7 +27,7 @@ class HtmlAnalyser(object):
         :param article_extractor: the article extractor object that will
             extract the article from the html page
         """
-        self.__text_analyser = text_analyser or TextAnalyser()
+        self._text_analyser = text_analyser or TextAnalyser()
         self._article_extractor = article_extractor or MSSArticleExtractor()
 
     def _extract_page_data(self, soup):
@@ -81,7 +81,7 @@ class HtmlAnalyser(object):
         :return: the analysis result
         """
         page_content = self._article_extractor.extract_article(web_page.html)
-        text_analysis_result = self.__text_analyser.analyse(page_content)
+        text_analysis_result = self._text_analyser.analyse(page_content)
         soup = BeautifulSoup(web_page.html, "html.parser")
         page_data = self._extract_page_data(soup)
         extracted_data = extruct.extract(web_page.html, base_url=web_page.url)
