@@ -13,7 +13,14 @@ from text_analysis_helpers.named_entities.extractors import (
 
 
 class NltkNamedEntityExtractor(NamedEntityExtractor):
+    """Named entity extractor using nltk"""
+
     def __init__(self, pos_tagger: Optional[TaggerI] = None, ne_chunker=None):
+        """Create a new NltkNamedEntityExtractor onject
+
+        :param pos_tagger: the part of speech tagger that will be used
+        :param ne_chunker: the named entity chunker
+        """
         self._pos_tagger = pos_tagger or PerceptronTagger()
         self._ne_chunker = ne_chunker or nltk_data_load(
             "chunkers/maxent_ne_chunker/english_ace_multiclass.pickle"

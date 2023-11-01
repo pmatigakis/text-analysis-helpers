@@ -10,7 +10,14 @@ from text_analysis_helpers.summaries.summarizers import (
 
 
 class SumySummarizer(SummarizerBase):
+    """Summarizer implementation using sumy"""
+
     def __init__(self, language="english", sentence_count=5):
+        """Create a new SumySummarizer object
+
+        :param language: the document language
+        :param sentence_count: the number of sentences to return
+        """
         self.language = language
         self.sentence_count = sentence_count
 

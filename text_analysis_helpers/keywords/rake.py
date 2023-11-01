@@ -205,11 +205,6 @@ class Rake(KeywordExtractor):
         return normalized_candidates_scores
 
     def extract_keywords(self, document: str) -> Dict[str, float]:
-        """Extract the keywords from the given document text
-
-        :param document: the document text
-        :return: a list with the keywords.
-        """
         tokenized_document = self._tokenize_document(document)
         candidate_keywords = self._extract_candidate_keywords(
             tokenized_document
