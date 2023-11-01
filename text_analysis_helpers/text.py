@@ -5,6 +5,7 @@ import numpy as np
 from nltk import sent_tokenize, word_tokenize
 from textstat.textstat import textstat
 
+from text_analysis_helpers.exceptions import NoContentError
 from text_analysis_helpers.keywords.extractors import KeywordExtractor
 from text_analysis_helpers.keywords.rake import Rake
 from text_analysis_helpers.models import TextAnalysisResult, TextStatistics
@@ -93,16 +94,14 @@ class TextAnalyser(object):
         :param text: the text to analyse
         :return: the analysis result
         """
+        if len(text) == 0:
+            raise NoContentError()
+
         readability_scores = self._calculate_readability_scores(text)
-
-        keywords = None
-        if isinstance(text, str) and len(text) != 0:
-            keywords = self.keyword_extractor.extract_keywords(text)
-
         sentences = sent_tokenize(text)
         sentence_words = [word_tokenize(sentence) for sentence in sentences]
-
         statistics = self._calculate_text_statistics(sentences, sentence_words)
+        keywords = self.keyword_extractor.extract_keywords(text)
         summary = self.summarizer.summarize(text)
         named_entities = self.named_entity_extractor.extract_named_entities(
             text

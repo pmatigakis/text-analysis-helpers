@@ -33,3 +33,9 @@ class WebPageDownloadError(TextAnalysisHelpersException):
         self.url = url
         self.status_code = status_code
         self.response = response
+
+
+class NoContentError(TextAnalysisHelpersException):
+    """Exception raised when there is no content to analyse"""
+
+    pass

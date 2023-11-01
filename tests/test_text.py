@@ -5,6 +5,7 @@ from unittest.mock import patch
 import arrow
 from dateutil.tz import tzutc
 
+from text_analysis_helpers.exceptions import NoContentError
 from text_analysis_helpers.models import TextAnalysisResult
 from text_analysis_helpers.text import TextAnalyser
 
@@ -90,6 +91,11 @@ tincidunt dui sed tincidunt. Duis ut lobortis eros, nec egestas mi."""
             text_analysis_result.created_at,
             datetime(2018, 10, 6, 12, 30, tzinfo=tzutc()),
         )
+
+    def test_analyse_with_empty_document(self):
+        analyser = TextAnalyser()
+        with self.assertRaises(NoContentError):
+            analyser.analyse("")
 
 
 if __name__ == "__main__":

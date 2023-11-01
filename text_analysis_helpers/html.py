@@ -7,6 +7,7 @@ from articles.mss.extractors import MSSArticleExtractor
 from bs4 import BeautifulSoup
 
 from text_analysis_helpers.downloaders import download_web_page
+from text_analysis_helpers.exceptions import NoContentError
 from text_analysis_helpers.models import (
     HtmlAnalysisResult,
     SocialNetworkData,
@@ -46,7 +47,7 @@ class HtmlAnalyser(object):
             name = meta.get("name", "")
             if name.startswith("twitter:"):
                 items = name.split(":")
-                if len(items) < 2:
+                if len(items) < 2 or (len(items) == 2 and not items[1]):
                     msg = "Invalid twitter card value: twitter_card(%s)"
                     logger.warning(msg, name)
                     continue
@@ -87,6 +88,9 @@ class HtmlAnalyser(object):
         :param web_page: the web page contents
         :return: the analysis result
         """
+        if len(web_page.html) == 0:
+            raise NoContentError()
+
         page_content = self._article_extractor.extract_article(web_page.html)
         text_analysis_result = self._text_analyser.analyse(page_content)
         soup = BeautifulSoup(web_page.html, "html.parser")
