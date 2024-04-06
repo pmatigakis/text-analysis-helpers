@@ -40,7 +40,7 @@ class HtmlAnalyser(object):
 
         return {"title": title.text if title else None}
 
-    def _extract_twitter_card(self, soup: BeautifulSoup) -> dict:
+    def _extract_twitter_card(self, soup: BeautifulSoup) -> dict | None:
         card = {}
 
         for meta in soup.find_all("meta"):

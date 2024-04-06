@@ -1,28 +1,33 @@
 import json
 from abc import ABCMeta, abstractmethod
-from collections import namedtuple
-from typing import Dict, Set
+from dataclasses import asdict, dataclass
 
 from text_analysis_helpers.helpers import current_date
 
-TextStatistics = namedtuple(
-    "TextStatistics",
-    [
-        "sentence_count",
-        "word_count",
-        "mean_sentence_word_count",
-        "median_sentence_word_count",
-        "min_sentence_word_count",
-        "max_sentence_word_count",
-        "average_sentence_word_count",
-        "sentence_word_count_std",
-        "sentence_word_count_variance",
-    ],
-)
 
-WebPage = namedtuple("WebPage", ["url", "html"])
+@dataclass
+class TextStatistics:
+    sentence_count: int
+    word_count: int
+    mean_sentence_word_count: float
+    median_sentence_word_count: float
+    min_sentence_word_count: int
+    max_sentence_word_count: int
+    average_sentence_word_count: float
+    sentence_word_count_std: float
+    sentence_word_count_variance: float
 
-SocialNetworkData = namedtuple("SocialNetworkData", ["opengraph", "twitter"])
+
+@dataclass
+class WebPage:
+    url: str
+    html: str
+
+
+@dataclass
+class SocialNetworkData:
+    opengraph: list | None
+    twitter: dict | None
 
 
 class BaseAnalysisResult(metaclass=ABCMeta):
@@ -67,11 +72,11 @@ class TextAnalysisResult(BaseAnalysisResult):
     def __init__(
         self,
         text: str,
-        keywords: Dict[str, float],
+        keywords: dict[str, float],
         readability_scores: dict,
         statistics: TextStatistics,
         summary: str,
-        named_entities: Dict[str, Set[str]],
+        named_entities: dict[str, set[str]],
     ):
         """Create a new TextAnalysisResult object
 
@@ -104,7 +109,7 @@ class TextAnalysisResult(BaseAnalysisResult):
                 "text": self.text,
                 "keywords": self.keywords,
                 "readability_scores": self.readability_scores,
-                "statistics": dict(self.statistics._asdict()),
+                "statistics": asdict(self.statistics),
                 "summary": self.summary,
                 "named_entities": named_entities,
             }
