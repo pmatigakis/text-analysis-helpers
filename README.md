@@ -4,9 +4,8 @@ Text-analysis-helpers is a collection of classes and functions for text analysis
 
 # Installation
 
-A Python 3 interpreter is required. It is recommended to install the package in
-a virtual environment in order to avoid corrupting the system's Python interpreter
-packages.
+It is recommended to install the package in a virtual environment in order to 
+avoid corrupting the system's Python interpreter packages.
 
 Install the package using pip.
 
