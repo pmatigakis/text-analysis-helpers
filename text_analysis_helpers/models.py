@@ -37,7 +37,7 @@ class BaseAnalysisResult(metaclass=ABCMeta):
         creation_date = current_date()
 
         self.created_at = creation_date.datetime
-        self.created_at_timestamp = creation_date.timestamp
+        self.created_at_timestamp = creation_date.timestamp()
 
     def save(self, output_file: str):
         """Encode to json and save to a file

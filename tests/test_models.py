@@ -47,7 +47,7 @@ class TextAnalysisResultTest(TestCase):
 
         created_at = arrow.get("2018-10-06T12:30:00.000000+00:00")
         self.analysis_result.created_at = created_at.datetime
-        self.analysis_result.created_at_timestamp = created_at.timestamp
+        self.analysis_result.created_at_timestamp = created_at.timestamp()
 
     def test_as_dict(self):
         self.assertDictEqual(
@@ -149,7 +149,7 @@ class HtmlAnalysisResultTest(TestCase):
 
         created_at = arrow.get("2018-10-06T12:30:00.000000+00:00")
         self.analysis_result.created_at = created_at.datetime
-        self.analysis_result.created_at_timestamp = created_at.timestamp
+        self.analysis_result.created_at_timestamp = created_at.timestamp()
 
     def test_as_dict(self):
         self.maxDiff = None
