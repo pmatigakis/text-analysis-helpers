@@ -43,6 +43,7 @@ class TextAnalysisResultTest(TestCase):
             statistics=statistics,
             summary="hello",
             named_entities={"PERSON": {"john"}},
+            language="en",
         )
 
         created_at = arrow.get("2018-10-06T12:30:00.000000+00:00")
@@ -82,6 +83,7 @@ class TextAnalysisResultTest(TestCase):
                 "text": "hello world",
                 "created_at": "2018-10-06 12:30:00 +0000",
                 "created_at_timestamp": 1538829000,
+                "language": "en",
             },
         )
 
@@ -124,6 +126,7 @@ class HtmlAnalysisResultTest(TestCase):
             statistics=statistics,
             summary="hello",
             named_entities={"PERSON": {"john"}},
+            language="en",
         )
 
         social_netword_data = SocialNetworkData(
@@ -208,6 +211,7 @@ class HtmlAnalysisResultTest(TestCase):
                 "summary": "hello",
                 "text": "hello world",
                 "title": "this is the title",
+                "language": "en",
             },
         )
 

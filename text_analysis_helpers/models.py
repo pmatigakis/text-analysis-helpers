@@ -77,6 +77,7 @@ class TextAnalysisResult(BaseAnalysisResult):
         statistics: TextStatistics,
         summary: str,
         named_entities: dict[str, set[str]],
+        language: str | None,
     ):
         """Create a new TextAnalysisResult object
 
@@ -86,6 +87,7 @@ class TextAnalysisResult(BaseAnalysisResult):
         :param statistics: the text statistics
         :param summary: the text summary
         :param named_entities: the extracted named entities
+        :param language: the detected text language
         """
         super(TextAnalysisResult, self).__init__()
 
@@ -95,6 +97,7 @@ class TextAnalysisResult(BaseAnalysisResult):
         self.statistics = statistics
         self.summary = summary
         self.named_entities = named_entities
+        self.language = language
 
     def as_dict(self):
         data = super(TextAnalysisResult, self).as_dict()
@@ -112,6 +115,7 @@ class TextAnalysisResult(BaseAnalysisResult):
                 "statistics": asdict(self.statistics),
                 "summary": self.summary,
                 "named_entities": named_entities,
+                "language": self.language,
             }
         )
 
@@ -145,6 +149,7 @@ class HtmlAnalysisResult(TextAnalysisResult):
             statistics=text_data.statistics,
             summary=text_data.summary,
             named_entities=text_data.named_entities,
+            language=text_data.language,
         )
 
         self.url = url

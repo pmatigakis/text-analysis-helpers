@@ -1,7 +1,9 @@
 import itertools
 from typing import Dict, List, Optional
 
+import langdetect
 import numpy as np
+from langdetect.lang_detect_exception import LangDetectException
 from nltk import sent_tokenize, word_tokenize
 from textstat.textstat import textstat
 
@@ -107,6 +109,11 @@ class TextAnalyser(object):
             text
         )
 
+        try:
+            language = langdetect.detect(text)
+        except LangDetectException:
+            language = None
+
         return TextAnalysisResult(
             text=text,
             keywords=keywords,
@@ -114,6 +121,7 @@ class TextAnalyser(object):
             statistics=statistics,
             summary=summary,
             named_entities=named_entities,
+            language=language,
         )
 
     def analyse_file(self, filename: str) -> TextAnalysisResult:
